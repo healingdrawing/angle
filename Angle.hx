@@ -1,4 +1,4 @@
-package geometryxd;
+package angle;
 
 enum abstract AngleUnit(Int){
     var None = 0;
@@ -46,17 +46,12 @@ enum abstract AngleUnit(Int){
  * * sarc() -> `second of arc`
  */
 class Angle {
-    
+
     /**
      * internal storage for base angle value, which unit is `turn`. 1 `turn` is 360 `deg` is one full rotation.
      * Alternative `turn` names is `cyc`(circle), `rev`(revolution), `rot`(complete rotation)
      */
     var value:Float;
-    
-    /**
-     * internal usage of methods
-     */
-    var geo = new GeometryXD(false);
     
     
     /**
