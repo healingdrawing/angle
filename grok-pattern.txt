@@ -1,0 +1,71 @@
+discover
+https://github.com/healingdrawing/angle/tree/try-ts-zig-unification
+
+there is implemented skeleton for unified testing of:
+- ts/angle.ts
+- zig/angle.zig
+
+files responsible for unified test
+- ts/terminalcall.ts
+- zig/tests/data_*.zig
+- zig/tests/test_*.zig
+
+AI task.
+
+Use file angle.zig as orientation of names of methods.
+Typescript angle.ts expected to have similar names of methods.
+
+Based on impemented test for method Angle.from (files data_from.zig, test_from.zig):
+1 - properly extend test cases for "from" method, it is only two at the moment.
+2 - write similar test for "add", method. it should be very similar with "from".
+3 - write similar as possible test for each trigonometric methods separately. data_from_sin.zig , test_from_sin.zig etc.
+pub fn from_sin(
+pub fn from_cos(
+pub fn from_tan(
+pub fn from_cot(
+pub fn from_sec(
+pub fn from_csc(
+pub fn from_sinh(
+pub fn from_cosh(
+pub fn from_tanh(
+pub fn from_coth(
+pub fn from_sech(
+pub fn from_csch(
+since they are outside of scope of method .from( that uses AngleUnit as incoming, and can be just tested from one place uses proper data_from.zig file
+
+4 - write test for each trigonometric/hyperbolic functions:
+pub fn sin(
+pub fn cos(
+pub fn tan(
+pub fn cot(
+pub fn sec(
+pub fn csc(
+pub fn sinh(
+pub fn cosh(
+pub fn tanh(
+pub fn coth(
+pub fn sech(
+pub fn csch(
+
+5 - write test for each of methods:
+pub fn use_sin(
+pub fn use_cos(
+pub fn use_tan(
+pub fn use_cot(
+pub fn use_sec(
+pub fn use_csc(
+pub fn use_sinh(
+pub fn use_cosh(
+pub fn use_tanh(
+pub fn use_coth(
+pub fn use_sech(
+pub fn use_csch(
+
+6 - write tests for each of methods:
+pub fn cut_angle(
+pub fn copy(
+pub fn negate(
+pub fn normalize(
+they are extra/utility methods
+
+Offer to me step by step , choose the next not tested( tested not properly) method.
