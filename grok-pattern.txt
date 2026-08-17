@@ -16,7 +16,7 @@ Use file angle.zig as orientation of names of methods.
 Typescript angle.ts expected to have similar names of methods.
 
 Based on impemented test for method Angle.from (files data_from.zig, test_from.zig):
-1 - properly extend test cases for "from" method, it is only two at the moment.
+(implemented) 1 - properly extend test cases for "from" method, it is only two at the moment.
 2 - write similar test for "add", method. it should be very similar with "from".
 3 - write similar as possible test for each trigonometric methods separately. data_from_sin.zig , test_from_sin.zig etc.
 pub fn from_sin(
