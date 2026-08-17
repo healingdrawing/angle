@@ -38,8 +38,8 @@ export class Angle {
       [AngleUnit.bdeg]: Angle.pi / 128,
       [AngleUnit.deg]: Angle.pi / 180,
       [AngleUnit.grad]: Angle.pi / 200,
-      [AngleUnit.marc]: Angle.pi / 108000,
-      [AngleUnit.sarc]: Angle.pi / 6480000,
+      [AngleUnit.marc]: Angle.pi / 10800,
+      [AngleUnit.sarc]: Angle.pi / 648000,
   };
 
   /**
@@ -57,8 +57,8 @@ export class Angle {
       [AngleUnit.bdeg]: 128 / Angle.pi,
       [AngleUnit.deg]: 180 / Angle.pi,
       [AngleUnit.grad]: 200 / Angle.pi,
-      [AngleUnit.marc]: 108000 / Angle.pi,
-      [AngleUnit.sarc]: 6480000 / Angle.pi,
+      [AngleUnit.marc]: 10800 / Angle.pi,
+      [AngleUnit.sarc]: 648000 / Angle.pi,
   };
   
   /**

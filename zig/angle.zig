@@ -33,8 +33,8 @@ pub fn Angle(comptime T: type) type {
             factors[@intFromEnum(AngleUnit.bdeg)] = pi / 128.0;
             factors[@intFromEnum(AngleUnit.deg)] = pi / 180.0;
             factors[@intFromEnum(AngleUnit.grad)] = pi / 200.0;
-            factors[@intFromEnum(AngleUnit.marc)] = pi / 108000.0;
-            factors[@intFromEnum(AngleUnit.sarc)] = pi / 6480000.0;
+            factors[@intFromEnum(AngleUnit.marc)] = pi / 10800.0;
+            factors[@intFromEnum(AngleUnit.sarc)] = pi / 648000.0;
             break :blk factors;
         };
 
@@ -50,8 +50,8 @@ pub fn Angle(comptime T: type) type {
             factors[@intFromEnum(AngleUnit.bdeg)] = 128.0 / pi;
             factors[@intFromEnum(AngleUnit.deg)] = 180.0 / pi;
             factors[@intFromEnum(AngleUnit.grad)] = 200.0 / pi;
-            factors[@intFromEnum(AngleUnit.marc)] = 108000.0 / pi;
-            factors[@intFromEnum(AngleUnit.sarc)] = 6480000.0 / pi;
+            factors[@intFromEnum(AngleUnit.marc)] = 10800.0 / pi;
+            factors[@intFromEnum(AngleUnit.sarc)] = 648000.0 / pi;
             break :blk factors;
         };
 
