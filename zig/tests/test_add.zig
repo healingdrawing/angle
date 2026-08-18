@@ -1,20 +1,21 @@
 const std = @import("std");
 const dp = @import("../utils/debug.zig");
-const data_from = @import("data_from.zig");
+const data_add = @import("data_add.zig");
 const floatUtils = @import("float.zig");
 const angle = @import("../angle.zig").Angle(f32);
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 
-pub fn test_from(epsilon: f32) !report.MethodResult {
+pub fn test_add(epsilon: f32) !report.MethodResult {
     const allocator = std.heap.page_allocator;
     var failed: usize = 0;
 
-    dp.devlog(.{"Running Angle.from tests..."});
+    dp.devlog(.{"Running Angle.add tests..."});
 
-    for (data_from.cases) |tcase| {
+    for (data_add.cases) |tcase| {
         // Call Zig method
-        const zig_angle = angle.from(tcase.in_unit, tcase.in_value);
+        var zig_angle = angle.from(tcase.in_unit, tcase.in_value);
+        _ = zig_angle.add(tcase.add_unit, tcase.add_value);
 
         const zig_result = switch (tcase.out_unit) {
             unit.none => try floatUtils.to_array(allocator, zig_angle.rad()),
@@ -33,7 +34,7 @@ pub fn test_from(epsilon: f32) !report.MethodResult {
         defer allocator.free(zig_result);
 
         // Call TS bridge
-        const data_str = try floatUtils.vectors_to_string(allocator, .{ @intFromEnum(tcase.in_unit), tcase.in_value, @intFromEnum(tcase.out_unit) });
+        const data_str = try floatUtils.vectors_to_string(allocator, .{ @intFromEnum(tcase.in_unit), tcase.in_value, @intFromEnum(tcase.add_unit), tcase.add_value, @intFromEnum(tcase.out_unit) });
         defer allocator.free(data_str);
         // std.debug.print("data_str {s}", .{data_str});
 
@@ -41,7 +42,7 @@ pub fn test_from(epsilon: f32) !report.MethodResult {
         defer t_io.deinit();
         const io = t_io.io();
 
-        const cmd = try std.fmt.allocPrint(allocator, "/home/user/.bun/bin/bun ../ts/terminalcall.ts from {s}", .{data_str});
+        const cmd = try std.fmt.allocPrint(allocator, "/home/user/.bun/bin/bun ../ts/terminalcall.ts add {s}", .{data_str});
         defer allocator.free(cmd);
 
         const result = try std.process.run(allocator, io, .{
@@ -64,15 +65,19 @@ pub fn test_from(epsilon: f32) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from({any}, {any}){any}() = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.out_unit, zig_result });
+            std.debug.print("✓ Angle.add({any}, {any}) + {any}({any}) as {any} = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.add_unit, tcase.add_value, tcase.out_unit, zig_result });
         } else {
             failed += 1;
             dp.errlog(.{
-                "✗ Angle.from",
+                "✗ Angle.add",
                 "in_unit",
                 tcase.in_unit,
-                "value",
+                "initial_value",
                 tcase.in_value,
+                "add_unit",
+                tcase.add_unit,
+                "add_value",
+                tcase.add_value,
                 "out_unit",
                 tcase.out_unit,
                 "zig_result",
@@ -87,8 +92,8 @@ pub fn test_from(epsilon: f32) !report.MethodResult {
         }
     }
     return .{
-        .name = "Angle.from",
-        .total = data_from.cases.len,
+        .name = "Angle.add",
+        .total = data_add.cases.len,
         .failed = failed,
     };
 }

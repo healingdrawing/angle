@@ -33,7 +33,12 @@ pub inline fn floats_equal(a: f32, b: f32, epsilon: f32) bool {
     if (std.math.isInf(a) or std.math.isInf(b)) {
         return a == b; // +Inf == +Inf, -Inf == -Inf, but +Inf != -Inf
     }
-    return @abs(a - b) <= epsilon;
+    // Adaptive tolerance: f32 precision degrades with magnitude
+    // Relative error scales with value size, absolute error for small values
+    const magnitude = @max(@abs(a), @abs(b));
+    const adaptive_epsilon = epsilon * @max(1, magnitude);
+
+    return @abs(a - b) <= adaptive_epsilon;
 }
 
 /// Compare two f32 arrays with epsilon tolerance

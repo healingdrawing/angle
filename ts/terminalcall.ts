@@ -18,8 +18,13 @@ const methods: Record<string, Handler> = {
     if (a.length !== 3) throw new Error("call Angle.from needs 3 numbers");
     if (!is_valid_unit(a[0])) throw new Error("Angle.from bad in_unit");
     if (!is_valid_unit(a[2])) throw new Error("Angle.from bad out_unit");
-    const result = Angle.from(a[0], a[1]);
-    switch(a[2]){
+    
+    const in_unit = a[0];
+    const in_value = a[1];
+    const out_unit = a[2];
+    
+    const result = Angle.from(in_unit, in_value);
+    switch(out_unit){
       case AngleUnit.none: return result.rad()
       case AngleUnit.turn: return result.turn()
       case AngleUnit.mulp: return result.mulp()
@@ -33,6 +38,38 @@ const methods: Record<string, Handler> = {
       case AngleUnit.marc: return result.marc()
       case AngleUnit.sarc: return result.sarc()
       default: throw new Error("Angle.from: switch failed. Should not happen");
+    }
+  },
+  add: (a) => {
+    // args: [initial_in_unit, initial_value, add_in_unit, add_value, out_unit]
+    if (a.length !== 5) throw new Error("call Angle.add needs 5 numbers");
+    if (!is_valid_unit(a[0])) throw new Error("Angle.add bad initial_unit");
+    if (!is_valid_unit(a[2])) throw new Error("Angle.add bad add_unit");
+    if (!is_valid_unit(a[4])) throw new Error("Angle.add bad out_unit");
+    
+    const in_unit = a[0];
+    const in_value = a[1];
+    const add_unit = a[2];
+    const add_value = a[3];
+    const out_unit = a[4];
+    
+    const result = Angle.from(in_unit, in_value);
+    result.add(add_unit, add_value);
+    
+    switch(out_unit){
+      case AngleUnit.none: return result.rad()
+      case AngleUnit.turn: return result.turn()
+      case AngleUnit.mulp: return result.mulp()
+      case AngleUnit.quad: return result.quad()
+      case AngleUnit.sext: return result.sext()
+      case AngleUnit.rad: return result.rad()
+      case AngleUnit.hexa: return result.hexa()
+      case AngleUnit.bdeg: return result.bdeg()
+      case AngleUnit.deg: return result.deg()
+      case AngleUnit.grad: return result.grad()
+      case AngleUnit.marc: return result.marc()
+      case AngleUnit.sarc: return result.sarc()
+      default: throw new Error("Angle.add: switch failed. Should not happen");
     }
   },
   // executed_method_title: (a) => { ... },
