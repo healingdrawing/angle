@@ -65,14 +65,14 @@ pub fn test_add(epsilon: f32) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.add({any}, {any}) + {any}({any}) as {any} = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.add_unit, tcase.add_value, tcase.out_unit, zig_result });
+            std.debug.print("✓ Angle.from({any}, {any}).add({any}, {any}){any}() = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.add_unit, tcase.add_value, tcase.out_unit, zig_result });
         } else {
             failed += 1;
             dp.errlog(.{
                 "✗ Angle.add",
                 "in_unit",
                 tcase.in_unit,
-                "initial_value",
+                "in_value",
                 tcase.in_value,
                 "add_unit",
                 tcase.add_unit,
