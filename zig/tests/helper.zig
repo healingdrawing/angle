@@ -1,5 +1,6 @@
 const std = @import("std");
 const math = std.math;
+const angle = @import("../angle.zig");
 
 pub const unit_helper = struct {
     pub const pi = math.pi;
@@ -57,6 +58,20 @@ pub const unit_helper = struct {
     pub const cos_neg_45 = math.cos(neg_deg_45 * deg_to_rad);
     pub const cos_neg_60 = math.cos(neg_deg_60 * deg_to_rad);
     pub const cos_neg_90 = math.cos(neg_deg_90 * deg_to_rad);
+
+    pub const tan_0 = math.tan(deg_0 * deg_to_rad);
+    pub const tan_20 = math.tan(deg_20 * deg_to_rad);
+    pub const tan_30 = math.tan(deg_30 * deg_to_rad);
+    pub const tan_45 = math.tan(deg_45 * deg_to_rad);
+    pub const tan_60 = math.tan(deg_60 * deg_to_rad);
+    pub const tan_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+
+    pub const tan_neg_0 = math.tan(neg_deg_0 * deg_to_rad);
+    pub const tan_neg_20 = math.tan(neg_deg_20 * deg_to_rad);
+    pub const tan_neg_30 = math.tan(neg_deg_30 * deg_to_rad);
+    pub const tan_neg_45 = math.tan(neg_deg_45 * deg_to_rad);
+    pub const tan_neg_60 = math.tan(neg_deg_60 * deg_to_rad);
+    pub const tan_neg_90 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
 
     pub const rad_0 = deg_0 * deg_to_rad;
     pub const rad_20 = deg_20 * deg_to_rad;

@@ -20,6 +20,8 @@ pub fn Angle(comptime T: type) type {
         const Self = @This();
         const pi = std.math.pi;
         const pix2 = pi * 2;
+        pub const inf = std.math.inf(T); // +infinity for type T
+        pub const neg_inf = -std.math.inf(T); // -infinity for type T
 
         const CONVERSION_TO_RAD = blk: {
             var factors: [12]T = undefined;
@@ -132,7 +134,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_tan(v: T) Self {
             var a = Self.init();
-            _ = a.useTan(v);
+            _ = a.use_tan(v);
             return a;
         }
 
