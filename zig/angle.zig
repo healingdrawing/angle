@@ -120,7 +120,7 @@ pub fn Angle(comptime T: type) type {
         // Trig factory methods
         pub fn from_sin(v: T) Self {
             var a = Self.init();
-            _ = a.useSin(v);
+            _ = a.use_sin(v);
             return a;
         }
 
