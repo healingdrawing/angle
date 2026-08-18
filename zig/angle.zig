@@ -126,7 +126,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_cos(v: T) Self {
             var a = Self.init();
-            _ = a.useCos(v);
+            _ = a.use_cos(v);
             return a;
         }
 
