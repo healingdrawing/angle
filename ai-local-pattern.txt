@@ -11,6 +11,23 @@ zig/test.zig
 ts/terminalcall.ts
 For test.zig, and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
 
+extra info:
+* get value methods available for units:
+ * * turn() -> turn
+ * * mulp() -> `multiples of Math.PI`
+ * * quad() -> `quadrant`
+ * * sext() -> `sextant`
+ * * rad() -> `radian`
+ * * hexa() -> `hexacontade`
+ * * bdeg() -> `binary degree`
+ * * deg() -> `degree`
+ * * grad() -> `grad`
+ * * marc() -> `minute of arc`
+ * * sarc() -> `second of arc`
+
+=====
+extra comments, based on observed stupidity:
+
 FUCKING IDIOT. I DO THIS FIX BECAUSE YOU CRAPPING YOUR PANTS.
 WHEN I SAID "For test.zig, and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)". this means that ONLY THESE TWO FILES ARE MANAGED TO RESPONSE WITH FRAGMENTS. THE 1 + 1  = 2, IT IS NOT EQUALS TO THREE OF FOUR. IT IS TWO FILES. SO THIS ALSO MEANS THAT "data_*.zig" file and "test_*.zig" file , must be generated fully, follow the pattern/skeleton. Moron.
 
