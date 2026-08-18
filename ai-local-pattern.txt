@@ -16,4 +16,6 @@ WHEN I SAID "For test.zig, and terminalcall.ts, just response with code fragment
 
 idiot... follow the skeleton, fucking moron. NEVER CUT/SIMPLIFY THE SOLUTION IF I DO NOT ASK YOU. If skeleton of terminalcall.ts includes switch it is because the data for tests oriented to this switch. You already created the test data with expected different units, and implemented the test injection in terminalcall.ts with only degrees return, with comment "for simplifity", probably to underline the fact you crapping your pants, and want to announce it with more focus. It is panjabi level response. keep it for your self. i use ai to decrease retyping similar code, but not to digg your stupidity.
 
+idiot. when i said recreate injection for terminalcall.ts, this means recreate injection for terminalcall.ts . You do what is asked, not what you prefer. Do not overcrap response, with not requested full recreation of all the files. One step means one step. Not four steps.
+
 next method to test is
