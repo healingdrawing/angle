@@ -20,4 +20,8 @@ idiot. when i said recreate injection for terminalcall.ts, this means recreate i
 
 fucking idiot. do not break the skeleton. if skeleton includes the imports, with high chance they are used. DO NOT BREAK IMPORTS. YOUR TARGET IS JUST EXTEND(make dumb loop and copypaste with modification). You are not engineering dead child with broken imports, and simple solutions(crapping of your pants). You just follow the skeleton and extend what already works. donkey.
 
+follow the skeleton... fucking idiot.
+do not touch the structure if it is not needed.
+who allowed to you replace data_str with you wrong created cmd_args? follow the skeleton IDIOT.
+
 next method to test is
