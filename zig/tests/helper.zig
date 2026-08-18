@@ -37,12 +37,12 @@ pub const unit_helper = struct {
     pub const sin_60 = math.sin(deg_60 * deg_to_rad);
     pub const sin_90 = math.sin(deg_90 * deg_to_rad);
 
-    pub const neg_sin_0 = -sin_0;
-    pub const neg_sin_20 = -sin_20;
-    pub const neg_sin_30 = -sin_30;
-    pub const neg_sin_45 = -sin_45;
-    pub const neg_sin_60 = -sin_60;
-    pub const neg_sin_90 = -sin_90;
+    pub const sin_neg_0 = math.sin(neg_deg_0 * deg_to_rad);
+    pub const sin_neg_20 = math.sin(neg_deg_20 * deg_to_rad);
+    pub const sin_neg_30 = math.sin(neg_deg_30 * deg_to_rad);
+    pub const sin_neg_45 = math.sin(neg_deg_45 * deg_to_rad);
+    pub const sin_neg_60 = math.sin(neg_deg_60 * deg_to_rad);
+    pub const sin_neg_90 = math.sin(neg_deg_90 * deg_to_rad);
 
     pub const cos_0 = math.cos(deg_0 * deg_to_rad); // 1
     pub const cos_20 = math.cos(deg_20 * deg_to_rad); // 0.9+
@@ -51,12 +51,12 @@ pub const unit_helper = struct {
     pub const cos_60 = math.cos(deg_60 * deg_to_rad); // 0.5
     pub const cos_90 = math.cos(deg_90 * deg_to_rad); // 0
 
-    pub const neg_cos_0 = -cos_0;
-    pub const neg_cos_20 = -cos_20;
-    pub const neg_cos_30 = -cos_30;
-    pub const neg_cos_45 = -cos_45;
-    pub const neg_cos_60 = -cos_60;
-    pub const neg_cos_90 = -cos_90;
+    pub const cos_neg_0 = math.cos(neg_deg_0 * deg_to_rad);
+    pub const cos_neg_20 = math.cos(neg_deg_20 * deg_to_rad);
+    pub const cos_neg_30 = math.cos(neg_deg_30 * deg_to_rad);
+    pub const cos_neg_45 = math.cos(neg_deg_45 * deg_to_rad);
+    pub const cos_neg_60 = math.cos(neg_deg_60 * deg_to_rad);
+    pub const cos_neg_90 = math.cos(neg_deg_90 * deg_to_rad);
 
     pub const rad_0 = deg_0 * deg_to_rad;
     pub const rad_20 = deg_20 * deg_to_rad;

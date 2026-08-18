@@ -78,7 +78,7 @@ pub fn test_from_cos(epsilon: f32) !report.MethodResult {
                 ts_result,
                 "expected",
                 expected,
-                "cmd_args",
+                "data_str",
                 data_str,
             });
         }

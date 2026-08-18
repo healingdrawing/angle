@@ -78,7 +78,7 @@ pub fn test_from_sin(epsilon: f32) !report.MethodResult {
                 ts_result,
                 "expected",
                 expected,
-                "cmd_args",
+                "data_str",
                 data_str,
             });
         }
