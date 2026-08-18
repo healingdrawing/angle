@@ -9,5 +9,6 @@ zig/tests/data_from.zig
 zig/tests/test_from.zig
 zig/test.zig
 ts/terminalcall.ts
+For test.zig, and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
 
 next method to test is Angle.from_sin
