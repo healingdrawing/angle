@@ -4,10 +4,10 @@ lib files to test methods from:
 ts/angle.ts
 zig/angle.zig
 
-skeleton files:
-ts/terminalcall.ts
+skeleton files(implement solution/response in same sequence as list of files below):
 zig/tests/data_from.zig
 zig/tests/test_from.zig
 zig/test.zig
+ts/terminalcall.ts
 
-next method to test is
+next method to test is Angle.from_sin
