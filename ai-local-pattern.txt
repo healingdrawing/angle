@@ -1,0 +1,13 @@
+typescript and zig . write unified crosstests for methods, follow the skeleton from already implemented solutions.
+
+lib files to test methods from:
+ts/angle.ts
+zig/angle.zig
+
+skeleton files:
+ts/terminalcall.ts
+zig/tests/data_from.zig
+zig/tests/test_from.zig
+zig/test.zig
+
+next method to test is
