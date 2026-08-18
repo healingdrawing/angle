@@ -1,6 +1,7 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
+const uh = @import("helper.zig").unit_helper;
 
 pub const TestCase = struct {
     in_unit: unit,
@@ -11,7 +12,7 @@ pub const TestCase = struct {
     outarr: [1]f32,
 };
 
-const pi = math.pi;
+const pi = uh.pi;
 const pix2 = pi * 2;
 
 pub const cases = [_]TestCase{
