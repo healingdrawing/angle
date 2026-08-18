@@ -31,7 +31,7 @@ pub fn from_tanh(
 pub fn from_coth(
 pub fn from_sech(
 pub fn from_csch(
-since they are outside of scope of method .from( that uses AngleUnit as incoming, and can be just tested from one place uses proper data_from.zig file
+since they are outside of scope of method .from( that uses AngleUnit as incoming, and can be just tested from one place uses proper data_from.zig file)
 
 4 - write test for each trigonometric/hyperbolic functions:
 pub fn sin(
