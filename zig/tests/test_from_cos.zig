@@ -2,7 +2,7 @@ const std = @import("std");
 const dp = @import("../utils/debug.zig");
 const data_from = @import("data_from_cos.zig");
 const floatUtils = @import("float.zig");
-const angle = @import("../angle.zig").Angle(f32);
+const angle = @import("../angle.zig").AngleF32;
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 

@@ -1,4 +1,5 @@
 const std = @import("std");
+const math = std.math;
 
 pub const AngleUnit = enum(u8) {
     none = 0,
@@ -18,10 +19,10 @@ pub const AngleUnit = enum(u8) {
 pub fn Angle(comptime T: type) type {
     return struct {
         const Self = @This();
-        const pi = std.math.pi;
-        const pix2 = pi * 2;
-        pub const inf = std.math.inf(T); // +infinity for type T
-        pub const neg_inf = -std.math.inf(T); // -infinity for type T
+        pub const pi = @as(T, math.pi);
+        pub const pix2 = @as(T, pi * 2);
+        pub const inf = math.inf(T); // +infinity for type T
+        pub const neg_inf = -math.inf(T); // -infinity for type T
 
         const CONVERSION_TO_RAD = blk: {
             var factors: [12]T = undefined;
@@ -140,7 +141,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_cot(v: T) Self {
             var a = Self.init();
-            _ = a.useCot(v);
+            _ = a.use_cot(v);
             return a;
         }
 
@@ -353,124 +354,128 @@ pub fn Angle(comptime T: type) type {
         // ==================== TRIG/HYPERBOLIC ====================
 
         pub fn sin(self: Self) T {
-            return std.math.sin(self.value);
+            return math.sin(self.value);
         }
 
         pub fn cos(self: Self) T {
-            return std.math.cos(self.value);
+            return math.cos(self.value);
         }
 
         pub fn tan(self: Self) T {
-            return std.math.tan(self.value);
+            return math.tan(self.value);
         }
 
         pub fn cot(self: Self) T {
             const t = self.tan();
-            if (t == 0) return std.math.inf(T);
+            if (t == 0) return math.inf(T);
             return 1 / t;
         }
 
         pub fn sec(self: Self) T {
             const c = self.cos();
-            if (c == 0) return std.math.inf(T);
+            if (c == 0) return math.inf(T);
             return 1 / c;
         }
 
         pub fn csc(self: Self) T {
             const s = self.sin();
-            if (s == 0) return std.math.inf(T);
+            if (s == 0) return math.inf(T);
             return 1 / s;
         }
 
         pub fn sinh(self: Self) T {
-            return (std.math.exp(self.value) - std.math.exp(-self.value)) / 2;
+            return (math.exp(self.value) - math.exp(-self.value)) / 2;
         }
 
         pub fn cosh(self: Self) T {
-            return (std.math.exp(self.value) + std.math.exp(-self.value)) / 2;
+            return (math.exp(self.value) + math.exp(-self.value)) / 2;
         }
 
         pub fn tanh(self: Self) T {
-            return std.math.tanh(self.value);
+            return math.tanh(self.value);
         }
 
         pub fn coth(self: Self) T {
             const th = self.tanh();
-            if (th == 0) return std.math.inf(T);
+            if (th == 0) return math.inf(T);
             return 1 / th;
         }
 
         pub fn sech(self: Self) T {
             const ch = self.cosh();
-            if (ch == 0) return std.math.inf(T);
+            if (ch == 0) return math.inf(T);
             return 1 / ch;
         }
 
         pub fn csch(self: Self) T {
             const sh = self.sinh();
-            if (sh == 0) return std.math.inf(T);
+            if (sh == 0) return math.inf(T);
             return 1 / sh;
         }
 
         // ==================== USE FROM TRIG ====================
 
         pub fn use_sin(self: *Self, v: T) *Self {
-            self.value = std.math.asin(v);
+            self.value = math.asin(v);
             return self;
         }
 
         pub fn use_cos(self: *Self, v: T) *Self {
-            self.value = std.math.acos(v);
+            self.value = math.acos(v);
             return self;
         }
 
         pub fn use_tan(self: *Self, v: T) *Self {
-            self.value = std.math.atan(v);
+            self.value = math.atan(v);
             return self;
         }
 
         pub fn use_cot(self: *Self, v: T) *Self {
-            self.value = std.math.atan(v) + (if (v < 0) self.pi else 0);
+            if (v == 0) {
+                self.value = math.copysign(pi / 2.0, v);
+            } else {
+                self.value = math.atan(1.0 / v);
+            }
             return self;
         }
 
         pub fn use_sec(self: *Self, v: T) *Self {
-            self.value = std.math.acos(1 / v);
+            self.value = math.acos(1 / v);
             return self;
         }
 
         pub fn use_csc(self: *Self, v: T) *Self {
-            self.value = std.math.asin(1 / v);
+            self.value = math.asin(1 / v);
             return self;
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = std.math.log(v + std.math.sqrt(v * v + 1));
+            self.value = math.log(v + math.sqrt(v * v + 1));
             return self;
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = std.math.log(v + std.math.sqrt(v * v - 1));
+            self.value = math.log(v + math.sqrt(v * v - 1));
             return self;
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = 0.5 * std.math.log((1 + v) / (1 - v));
+            self.value = 0.5 * math.log((1 + v) / (1 - v));
             return self;
         }
 
         pub fn use_coth(self: *Self, v: T) *Self {
-            self.value = 0.5 * std.math.log((v + 1) / (v - 1));
+            self.value = 0.5 * math.log((v + 1) / (v - 1));
             return self;
         }
 
         pub fn use_sech(self: *Self, v: T) *Self {
-            self.value = std.math.log(1 / v + std.math.sqrt(1 / (v * v) - 1));
+            self.value = math.log(1 / v + math.sqrt(1 / (v * v) - 1));
             return self;
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = std.math.log(1 / v + std.math.sqrt(1 / (v * v) + 1));
+            self.value = math.log(1 / v + math.sqrt(1 / (v * v) + 1));
             return self;
         }
 

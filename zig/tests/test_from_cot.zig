@@ -1,20 +1,20 @@
 const std = @import("std");
 const dp = @import("../utils/debug.zig");
-const data_from = @import("data_from_tan.zig");
+const data_from = @import("data_from_cot.zig");
 const floatUtils = @import("float.zig");
 const angle = @import("../angle.zig").AngleF32;
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 
-pub fn test_from_tan(epsilon: f32) !report.MethodResult {
+pub fn test_from_cot(epsilon: f32) !report.MethodResult {
     const allocator = std.heap.page_allocator;
     var failed: usize = 0;
 
-    dp.devlog(.{"Running Angle.from_tan tests..."});
+    dp.devlog(.{"Running Angle.from_cot tests..."});
 
     for (data_from.cases) |tcase| {
         // Call Zig method
-        const zig_angle = angle.from_tan(tcase.in_value);
+        const zig_angle = angle.from_cot(tcase.in_value);
 
         const zig_result = switch (tcase.out_unit) {
             unit.none => try floatUtils.to_array(allocator, zig_angle.rad()),
@@ -40,7 +40,7 @@ pub fn test_from_tan(epsilon: f32) !report.MethodResult {
         defer t_io.deinit();
         const io = t_io.io();
 
-        const cmd = try std.fmt.allocPrint(allocator, "/home/user/.bun/bin/bun ../ts/terminalcall.ts from_tan {s}", .{data_str});
+        const cmd = try std.fmt.allocPrint(allocator, "/home/user/.bun/bin/bun ../ts/terminalcall.ts from_cot {s}", .{data_str});
         defer allocator.free(cmd);
 
         const result = try std.process.run(allocator, io, .{
@@ -63,11 +63,11 @@ pub fn test_from_tan(epsilon: f32) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from_tan({d}){any}() = {any}\n", .{ tcase.in_value, tcase.out_unit, zig_result });
+            std.debug.print("✓ Angle.from_cot({d}){any}() = {any}\n", .{ tcase.in_value, tcase.out_unit, zig_result });
         } else {
             failed += 1;
             dp.errlog(.{
-                "✗ Angle.from_tan",
+                "✗ Angle.from_cot",
                 "in_value",
                 tcase.in_value,
                 "out_unit",
@@ -84,7 +84,7 @@ pub fn test_from_tan(epsilon: f32) !report.MethodResult {
         }
     }
     return .{
-        .name = "Angle.from_tan",
+        .name = "Angle.from_cot",
         .total = data_from.cases.len,
         .failed = failed,
     };

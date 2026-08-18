@@ -423,8 +423,8 @@ export class Angle {
   }
 
   public use_cot(v: number): Angle {
-      this._value = Math.atan(v) + (v < 0 ? Angle.pi : 0);
-      return this;
+    this._value = Math.atan(1 / v);
+    return this;
   }
 
   public use_sec(v: number): Angle {
