@@ -18,4 +18,6 @@ idiot... follow the skeleton, fucking moron. NEVER CUT/SIMPLIFY THE SOLUTION IF 
 
 idiot. when i said recreate injection for terminalcall.ts, this means recreate injection for terminalcall.ts . You do what is asked, not what you prefer. Do not overcrap response, with not requested full recreation of all the files. One step means one step. Not four steps.
 
+fucking idiot. do not break the skeleton. if skeleton includes the imports, with high chance they are used. DO NOT BREAK IMPORTS. YOUR TARGET IS JUST EXTEND(make dumb loop and copypaste with modification). You are not engineering dead child with broken imports, and simple solutions(crapping of your pants). You just follow the skeleton and extend what already works. donkey.
+
 next method to test is
