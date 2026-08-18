@@ -63,7 +63,7 @@ pub fn test_from_sin(epsilon: f32) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from_sin({d}).{s}() = {any}\n", .{ tcase.in_value, @tagName(tcase.out_unit), zig_result });
+            std.debug.print("✓ Angle.from_sin({d}){any}() = {any}\n", .{ tcase.in_value, tcase.out_unit, zig_result });
         } else {
             failed += 1;
             dp.errlog(.{
