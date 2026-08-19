@@ -67,13 +67,6 @@ pub fn Angle(comptime T: type) type {
             };
         }
 
-        /// Static factory matching TypeScript's Angle.from()
-        pub fn from(unit: AngleUnit, val: T) Self {
-            var a = Self.init();
-            _ = a.use(unit, val);
-            return a;
-        }
-
         // --- Wrapper factories for each unit ---
 
         pub fn from_turn(val: T) Self {
@@ -196,11 +189,6 @@ pub fn Angle(comptime T: type) type {
 
         // ==================== SET VALUE METHODS ====================
 
-        pub fn use(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value = val * CONVERSION_TO_RAD[@intFromEnum(unit)];
-            return self;
-        }
-
         pub fn use_turn(self: *Self, val: T) *Self {
             return self.use(.turn, val);
         }
@@ -246,15 +234,10 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_angle(self: *Self, angle: Self) !void {
-            self.value = angle.rad();
+            self.value = angle.value;
         }
 
         // ==================== ADD VALUE METHODS ====================
-
-        pub fn add(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value += val * CONVERSION_TO_RAD[@intFromEnum(unit)];
-            return self;
-        }
 
         pub fn add_turn(self: *Self, val: T) *Self {
             return self.add(.turn, val);
@@ -298,11 +281,6 @@ pub fn Angle(comptime T: type) type {
 
         pub fn add_sarc(self: *Self, val: T) *Self {
             return self.add(.sarc, val);
-        }
-
-        pub fn add_angle(self: *Self, angle: Self) *Self {
-            self.value += angle.value;
-            return self;
         }
 
         // ==================== GET VALUE METHODS ====================
@@ -475,22 +453,46 @@ pub fn Angle(comptime T: type) type {
             return self;
         }
 
-        // ==================== SUBTRACTION/UTILITY ====================
+        // ==================== GENERIC METHODS ====================
 
-        pub fn cut_angle(self: *Self, angle: Self) *Self {
-            try self.addAngle(angle.negate());
+        pub fn from(unit: AngleUnit, val: T) Self {
+            var a = Self.init();
+            _ = a.use(unit, val);
+            return a;
+        }
+
+        pub fn use(self: *Self, unit: AngleUnit, val: T) *Self {
+            self.value = val * CONVERSION_TO_RAD[@intFromEnum(unit)];
             return self;
         }
+
+        pub fn add(self: *Self, unit: AngleUnit, val: T) *Self {
+            self.value += val * CONVERSION_TO_RAD[@intFromEnum(unit)];
+            return self;
+        }
+
+        // ==================== SUBTRACTION ====================
+
+        pub fn add_angle(self: *Self, angle: Self) *Self {
+            self.value += angle.value;
+            return self;
+        }
+
+        pub fn negate(self: Self) Self {
+            self.value = -self.value;
+            return self;
+        }
+
+        pub fn cut_angle(self: *Self, angle: Self) *Self {
+            try self.addAngle(angle.copy().negate());
+            return self;
+        }
+
+        // ==================== UTILITY METHODS ====================
 
         pub fn copy(self: Self) Self {
             var a = Self.init();
             a.value = self.value;
-            return a;
-        }
-
-        pub fn negate(self: Self) Self {
-            var a = Self.init();
-            a.value = -self.value;
             return a;
         }
 
@@ -500,6 +502,98 @@ pub fn Angle(comptime T: type) type {
                 self.value += pix2;
             }
             return self;
+        }
+
+        pub fn info_print(self: *Self, precision: u32) void {
+            // Find max label length
+            var max_label: usize = 0;
+            const all_labels = [_][]const u8{
+                "[turns]",
+                "[multiples of pi]",
+                "[quadrants]",
+                "[sextants]",
+                "[radians]",
+                "[hexacontades]",
+                "[binary degrees]",
+                "[degrees]",
+                "[gradians]",
+                "[minutes of arc]",
+                "[seconds of arc]",
+                "sinus",
+                "cosinus",
+                "tangens",
+                "cotangens",
+                "secans",
+                "cosecans",
+                "hyperbolic sinus",
+                "hyperbolic cosinus",
+                "hyperbolic tangens",
+                "hyperbolic cotangens",
+                "hyperbolic secans",
+                "hyperbolic cosecans",
+            };
+            for (all_labels) |lbl| {
+                if (lbl.len > max_label) max_label = lbl.len;
+            }
+
+            const print_line = struct {
+                fn doit(val: T, label: []const u8, pad: usize, prec: u32) void {
+                    std.debug.print("{s}", .{label});
+                    for (0..pad) |_| std.debug.print(" ", .{});
+                    std.debug.print(": ", .{});
+
+                    if (math.isNan(val)) {
+                        std.debug.print("NaN\n", .{});
+                        return;
+                    }
+                    if (!math.isFinite(val)) {
+                        if (val < 0) std.debug.print("-inf\n", .{}) else std.debug.print("+inf\n", .{});
+                        return;
+                    }
+
+                    // Correct Zig format for runtime precision
+                    std.debug.print("{d:.[1]}\n", .{ val, prec });
+                }
+            }.doit;
+
+            // Units
+            const vals_units = [_]T{
+                self.turn(), self.mulp(), self.quad(), self.sext(), self.rad(),
+                self.hexa(), self.bdeg(), self.deg(),  self.grad(), self.marc(),
+                self.sarc(),
+            };
+            const lbls_units = [_][]const u8{
+                "[turns]",
+                "[multiples of pi]",
+                "[quadrants]",
+                "[sextants]",
+                "[radians]",
+                "[hexacontades]",
+                "[binary degrees]",
+                "[degrees]",
+                "[gradians]",
+                "[minutes of arc]",
+                "[seconds of arc]",
+            };
+            for (lbls_units, vals_units) |lbl, val| {
+                print_line(val, lbl, max_label - lbl.len, precision);
+            }
+
+            // Trig
+            std.debug.print("\n", .{});
+            const vals_trig = [_]T{ self.sin(), self.cos(), self.tan(), self.cot(), self.sec(), self.csc() };
+            const lbls_trig = [_][]const u8{ "sinus", "cosinus", "tangens", "cotangens", "secans", "cosecans" };
+            for (lbls_trig, vals_trig) |lbl, val| {
+                print_line(val, lbl, max_label - lbl.len, precision);
+            }
+
+            // Hyperbolic
+            std.debug.print("\n", .{});
+            const vals_hyp = [_]T{ self.sinh(), self.cosh(), self.tanh(), self.coth(), self.sech(), self.csch() };
+            const lbls_hyp = [_][]const u8{ "hyperbolic sinus", "hyperbolic cosinus", "hyperbolic tangens", "hyperbolic cotangens", "hyperbolic secans", "hyperbolic cosecans" };
+            for (lbls_hyp, vals_hyp) |lbl, val| {
+                print_line(val, lbl, max_label - lbl.len, precision);
+            }
         }
     };
 }

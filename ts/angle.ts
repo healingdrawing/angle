@@ -68,14 +68,6 @@ export class Angle {
       this._value = 0;
   }
 
-  /**
-   * Create new angle from specified unit (static factory)
-   */
-  public static from(unit: AngleUnit, value: number): Angle {
-      const a = new Angle();
-      return a.use(unit, value);
-  }
-
   // --- Wrapper methods for each unit (call generic from()) ---
 
   public static from_angle(angle: Angle): Angle {
@@ -296,11 +288,6 @@ export class Angle {
       return this.add(AngleUnit.sarc, value);
   }
 
-  public add_angle(angle: Angle): Angle {
-      this._value += angle._value;
-      return this;
-  }
-
   // ==================== GET VALUE METHODS ====================
 
   public turn(): number {
@@ -467,10 +454,41 @@ export class Angle {
       return this;
   }
 
+  // ==================== GENERIC METHODS ====================
+
+  /**
+   * Create new angle from specified unit (static factory)
+   */
+  public static from(unit: AngleUnit, value: number): Angle {
+    const a = new Angle();
+    return a.use(unit, value);
+  }
+
+  public use(unit: AngleUnit, value: number): Angle {
+      this._value = value * Angle.CONVERSION_TO_RAD[unit];
+      return this;
+  }
+
+  public add(unit: AngleUnit, value: number): Angle {
+      this._value += value * Angle.CONVERSION_TO_RAD[unit];
+      return this;
+  }
+
   // ==================== SUBTRACTION ====================
 
+  public add_angle(angle: Angle): Angle {
+      this._value += angle._value;
+      return this;
+  }
+
+  public negate(): Angle {
+      this._value = -this._value;
+      return this;
+  }
+
   public cut_angle(angle: Angle): Angle {
-      return this.add_angle(angle.negate());
+      this.add_angle(angle.copy().negate());
+      return this;
   }
 
   // ==================== UTILITY METHODS ====================
@@ -478,12 +496,6 @@ export class Angle {
   public copy(): Angle {
       const a = new Angle();
       a._value = this._value;
-      return a;
-  }
-
-  public negate(): Angle {
-      const a = new Angle();
-      a._value = -this._value;
       return a;
   }
 
@@ -495,19 +507,68 @@ export class Angle {
       return this;
   }
 
-  public toString(precision: number = 6): string {
-      return `Angle(${this.deg().toFixed(precision)}° = ${this.rad().toFixed(precision)}rad)`;
+  public info_print(precision: number): void {
+    const fmt = (n: number): string => {
+        if (!isFinite(n)) return (n>0)?'+inf':'-inf';
+        if (isNaN(n)) return 'NaN';
+        return n.toFixed(precision);
+    };
+    
+    const units = [
+        { value: this.turn(), label: '[turns]' },
+        { value: this.mulp(), label: '[multiples of π]' },
+        { value: this.quad(), label: '[quadrants]' },
+        { value: this.sext(), label: '[sextants]' },
+        { value: this.rad(), label: '[radians]' },
+        { value: this.hexa(), label: '[hexacontades]' },
+        { value: this.bdeg(), label: '[binary degrees]' },
+        { value: this.deg(), label: '[degrees]' },
+        { value: this.grad(), label: '[gradians]' },
+        { value: this.marc(), label: '[minutes of arc]' },
+        { value: this.sarc(), label: '[seconds of arc]' },
+    ];
+    
+    const trig = [
+        { value: this.sin(), label: 'sinus' },
+        { value: this.cos(), label: 'cosinus' },
+        { value: this.tan(), label: 'tangens' },
+        { value: this.cot(), label: 'cotangens' },
+        { value: this.sec(), label: 'secans' },
+        { value: this.csc(), label: 'cosecans' },
+    ];
+    
+    const hyp = [
+        { value: this.sinh(), label: 'hyperbolic sinus' },
+        { value: this.cosh(), label: 'hyperbolic cosinus' },
+        { value: this.tanh(), label: 'hyperbolic tangens' },
+        { value: this.coth(), label: 'hyperbolic cotangens' },
+        { value: this.sech(), label: 'hyperbolic secans' },
+        { value: this.csch(), label: 'hyperbolic cosecans' },
+    ];
+    
+    // Find max label length
+    let max_label_len = 0;
+    for (const u of units) if (u.label.length > max_label_len) max_label_len = u.label.length;
+    for (const t of trig) if (t.label.length > max_label_len) max_label_len = t.label.length;
+    for (const h of hyp) if (h.label.length > max_label_len) max_label_len = h.label.length;
+    
+    // Print units
+    for (const { value, label } of units) {
+        console.log(label.padEnd(max_label_len) + ' | ' + fmt(value));
+    }
+    
+    // Print trig
+    console.log('');
+    for (const { value, label } of trig) {
+        console.log(label.padEnd(max_label_len) + ' | ' + fmt(value));
+    }
+    
+    // Print hyperbolic
+    console.log('');
+    for (const { value, label } of hyp) {
+        console.log(label.padEnd(max_label_len) + ' | ' + fmt(value));
+    }
   }
 
-  // ==================== GENERIC METHODS ====================
-
-  public use(unit: AngleUnit, value: number): Angle {
-      this._value = value * Angle.CONVERSION_TO_RAD[unit];
-      return this;
-  }
-
-  public add(unit: AngleUnit, value: number): Angle {
-      this._value += value * Angle.CONVERSION_TO_RAD[unit];
-      return this;
-  }
+  
 }
