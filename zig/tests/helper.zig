@@ -171,6 +171,20 @@ pub const unit_helper = struct {
     pub const tanh_neg_60 = math.tanh(neg_rad_60);
     pub const tanh_neg_90 = math.tanh(neg_rad_90);
 
+    pub const coth_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+    pub const coth_20 = 1.0 / math.tanh(rad_20);
+    pub const coth_30 = 1.0 / math.tanh(rad_30);
+    pub const coth_45 = 1.0 / math.tanh(rad_45);
+    pub const coth_60 = 1.0 / math.tanh(rad_60);
+    pub const coth_90 = 1.0 / math.tanh(rad_90);
+
+    pub const coth_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
+    pub const coth_neg_20 = 1.0 / math.tanh(neg_rad_20);
+    pub const coth_neg_30 = 1.0 / math.tanh(neg_rad_30);
+    pub const coth_neg_45 = 1.0 / math.tanh(neg_rad_45);
+    pub const coth_neg_60 = 1.0 / math.tanh(neg_rad_60);
+    pub const coth_neg_90 = 1.0 / math.tanh(neg_rad_90);
+
     pub const turn_0 = deg_0 * deg_to_turn;
     pub const turn_20 = deg_20 * deg_to_turn;
     pub const turn_30 = deg_30 * deg_to_turn;

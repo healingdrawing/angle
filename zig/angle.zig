@@ -178,7 +178,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_coth(v: T) Self {
             var a = Self.init();
-            _ = a.useCoth(v);
+            _ = a.use_coth(v);
             return a;
         }
 
@@ -431,11 +431,7 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_cot(self: *Self, v: T) *Self {
-            if (v == 0) {
-                self.value = math.copysign(pi / 2.0, v);
-            } else {
-                self.value = math.atan(1.0 / v);
-            }
+            self.value = math.atan(1 / v);
             return self;
         }
 
@@ -450,32 +446,32 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = math.log(T, math.e, v + math.sqrt(v * v + 1));
+            self.value = math.asinh(v);
             return self;
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = math.log(T, math.e, v + math.sqrt(v * v - 1));
+            self.value = math.acosh(v);
             return self;
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = 0.5 * math.log(T, math.e, (1 + v) / (1 - v));
+            self.value = math.atanh(v);
             return self;
         }
 
         pub fn use_coth(self: *Self, v: T) *Self {
-            self.value = 0.5 * math.log((v + 1) / (v - 1));
+            self.value = math.atanh(1 / v);
             return self;
         }
 
         pub fn use_sech(self: *Self, v: T) *Self {
-            self.value = math.log(1 / v + math.sqrt(1 / (v * v) - 1));
+            self.value = math.acosh(1 / v);
             return self;
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = math.log(1 / v + math.sqrt(1 / (v * v) + 1));
+            self.value = math.asinh(1 / v);
             return self;
         }
 

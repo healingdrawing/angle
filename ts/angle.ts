@@ -438,23 +438,23 @@ export class Angle {
   }
 
   public use_sinh(v: number): Angle {
-      this._value = Math.log(v + Math.sqrt(v * v + 1));
+      this._value = Math.asinh(v);
       return this;
   }
 
   public use_cosh(v: number): Angle {
-      this._value = Math.log(v + Math.sqrt(v * v - 1));
+      this._value = Math.acosh(v);
       return this;
   }
 
   public use_tanh(v: number): Angle {
-      this._value = 0.5 * Math.log((1 + v) / (1 - v));
+      this._value = Math.atanh(v);
       return this;
   }
 
   public use_coth(v: number): Angle {
-      this._value = 0.5 * Math.log((v + 1) / (v - 1));
-      return this;
+    this._value = Math.atanh(1 / v)
+    return this;
   }
 
   public use_sech(v: number): Angle {
