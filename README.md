@@ -7,9 +7,10 @@ Files:
 - ts/angle.ts
 - zig/angle.zig
 
-Developed to straight use of code(copypaste files in project).
+Developed to straight use of code(**copypaste files in projects**).
+Tests use **f32 with precision of the epsilon 1e-6**. For f64 case the refactored syntax expected.
 
-Zig version not prepared to be build(`zig build.zig`) as dynamic or static platform oriented libs.
+Zig version **not prepared to be build**(no build.zig at all) as dynamic or static platform oriented libs, uses `zig build` command.
 
 ## Artefacts
 Code in **haxe** folder is **deprecated haxe implementation, not developed anymore**. Used as origin for typescript and zig implementatioins.
