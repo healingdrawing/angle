@@ -5,9 +5,9 @@ ts/angle.ts
 zig/angle.zig(.txt)
 
 skeleton files(implement solution/response in same sequence as list of files below):
+zig/tests/helper.zig(.txt)
 zig/tests/data_from_*.zig(.txt)
 zig/tests/test_from_*.zig(.txt)
-zig/tests/helper.zig(.txt)
 zig/test.zig(.txt)
 ts/terminalcall.ts
 For test.zig, helper.zig and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
@@ -42,4 +42,4 @@ follow the skeleton... fucking idiot.
 do not touch the structure if it is not needed.
 who allowed to you replace data_str with you wrong created cmd_args? follow the skeleton IDIOT.
 
-next method to test is
+next method to test is 
