@@ -393,6 +393,35 @@ const methods: Record<string, Handler> = {
       default: throw new Error("Angle.cut_angle: switch failed. Should not happen");
     }
   },
+  normalize: (a) => {
+    // args: [in_unit, value, out_unit]
+    if (a.length !== 3) throw new Error("call Angle.normalize needs 3 numbers");
+    if (!is_valid_unit(a[0])) throw new Error("Angle.normalize bad in_unit");
+    if (!is_valid_unit(a[2])) throw new Error("Angle.normalize bad out_unit");
+    
+    const in_unit = a[0];
+    const in_value = a[1];
+    const out_unit = a[2];
+    
+    const result = Angle.from(in_unit, in_value);
+    result.normalize();
+    
+    switch(out_unit){
+      case AngleUnit.none: return result.rad()
+      case AngleUnit.turn: return result.turn()
+      case AngleUnit.mulp: return result.mulp()
+      case AngleUnit.quad: return result.quad()
+      case AngleUnit.sext: return result.sext()
+      case AngleUnit.rad: return result.rad()
+      case AngleUnit.hexa: return result.hexa()
+      case AngleUnit.bdeg: return result.bdeg()
+      case AngleUnit.deg: return result.deg()
+      case AngleUnit.grad: return result.grad()
+      case AngleUnit.marc: return result.marc()
+      case AngleUnit.sarc: return result.sarc()
+      default: throw new Error("Angle.normalize: switch failed. Should not happen");
+    }
+  },
   // executed_method_title: (a) => { ... },
 };
 
