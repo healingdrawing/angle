@@ -2,12 +2,13 @@ typescript and zig . write unified crosstests for methods, follow the skeleton f
 
 lib files to test methods from:
 ts/angle.ts
-zig/angle.zig
+zig/angle.zig(.txt)
 
 skeleton files(implement solution/response in same sequence as list of files below):
-zig/tests/data_from_sin.zig
-zig/tests/test_from_sin.zig
-zig/test.zig
+zig/tests/data_from_*.zig(.txt)
+zig/tests/test_from_*.zig(.txt)
+zig/tests/helper.zig(.txt)
+zig/test.zig(.txt)
 ts/terminalcall.ts
 For test.zig, and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
 
