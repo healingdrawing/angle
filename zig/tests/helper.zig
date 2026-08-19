@@ -157,6 +157,20 @@ pub const unit_helper = struct {
     pub const cosh_neg_60 = math.cosh(neg_rad_60);
     pub const cosh_neg_90 = math.cosh(neg_rad_90);
 
+    pub const tanh_0 = math.tanh(rad_0);
+    pub const tanh_20 = math.tanh(rad_20);
+    pub const tanh_30 = math.tanh(rad_30);
+    pub const tanh_45 = math.tanh(rad_45);
+    pub const tanh_60 = math.tanh(rad_60);
+    pub const tanh_90 = math.tanh(rad_90);
+
+    pub const tanh_neg_0 = math.tanh(neg_rad_0);
+    pub const tanh_neg_20 = math.tanh(neg_rad_20);
+    pub const tanh_neg_30 = math.tanh(neg_rad_30);
+    pub const tanh_neg_45 = math.tanh(neg_rad_45);
+    pub const tanh_neg_60 = math.tanh(neg_rad_60);
+    pub const tanh_neg_90 = math.tanh(neg_rad_90);
+
     pub const turn_0 = deg_0 * deg_to_turn;
     pub const turn_20 = deg_20 * deg_to_turn;
     pub const turn_30 = deg_30 * deg_to_turn;

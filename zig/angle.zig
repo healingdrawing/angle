@@ -172,7 +172,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_tanh(v: T) Self {
             var a = Self.init();
-            _ = a.useTanh(v);
+            _ = a.use_tanh(v);
             return a;
         }
 
@@ -460,7 +460,7 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = 0.5 * math.log((1 + v) / (1 - v));
+            self.value = 0.5 * math.log(T, math.e, (1 + v) / (1 - v));
             return self;
         }
 
