@@ -14,6 +14,7 @@ const test_from_sinh = @import("tests/test_from_sinh.zig").test_from_sinh;
 const test_from_cosh = @import("tests/test_from_cosh.zig").test_from_cosh;
 const test_from_tanh = @import("tests/test_from_tanh.zig").test_from_tanh;
 const test_from_coth = @import("tests/test_from_coth.zig").test_from_coth;
+const test_from_sech = @import("tests/test_from_sech.zig").test_from_sech;
 
 pub fn main(init: std.process.Init) !void {
     dp.init_from_env_map(init.environ_map);
@@ -33,6 +34,7 @@ pub fn main(init: std.process.Init) !void {
         try test_from_cosh(epsilon),
         try test_from_tanh(epsilon),
         try test_from_coth(epsilon),
+        try test_from_sech(epsilon),
     };
 
     report.print_test_sum_report(&results);

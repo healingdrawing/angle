@@ -185,6 +185,20 @@ pub const unit_helper = struct {
     pub const coth_neg_60 = 1.0 / math.tanh(neg_rad_60);
     pub const coth_neg_90 = 1.0 / math.tanh(neg_rad_90);
 
+    pub const sech_0 = 1.0 / math.cosh(rad_0);
+    pub const sech_20 = 1.0 / math.cosh(rad_20);
+    pub const sech_30 = 1.0 / math.cosh(rad_30);
+    pub const sech_45 = 1.0 / math.cosh(rad_45);
+    pub const sech_60 = 1.0 / math.cosh(rad_60);
+    pub const sech_90 = 1.0 / math.cosh(rad_90);
+
+    pub const sech_neg_0 = 1.0 / math.cosh(neg_rad_0);
+    pub const sech_neg_20 = 1.0 / math.cosh(neg_rad_20);
+    pub const sech_neg_30 = 1.0 / math.cosh(neg_rad_30);
+    pub const sech_neg_45 = 1.0 / math.cosh(neg_rad_45);
+    pub const sech_neg_60 = 1.0 / math.cosh(neg_rad_60);
+    pub const sech_neg_90 = 1.0 / math.cosh(neg_rad_90);
+
     pub const turn_0 = deg_0 * deg_to_turn;
     pub const turn_20 = deg_20 * deg_to_turn;
     pub const turn_30 = deg_30 * deg_to_turn;
