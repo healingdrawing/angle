@@ -487,7 +487,7 @@ export class Angle {
   }
 
   public cut_angle(angle: Angle): Angle {
-      this.add_angle(angle.copy().negate());
+      this._value -= angle._value;
       return this;
   }
 
@@ -569,6 +569,5 @@ export class Angle {
         console.log(label.padEnd(max_label_len) + ' | ' + fmt(value));
     }
   }
-
   
 }

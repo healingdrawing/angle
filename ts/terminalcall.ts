@@ -360,6 +360,39 @@ const methods: Record<string, Handler> = {
       default: throw new Error("Angle.from_csch: switch failed. Should not happen");
     }
   },
+  cut_angle: (a) => {
+    // args: [base_in_unit, base_value, cut_in_unit, cut_value, out_unit]
+    if (a.length !== 5) throw new Error("call Angle.cut_angle needs 5 numbers");
+    if (!is_valid_unit(a[0])) throw new Error("Angle.cut_angle bad base_unit");
+    if (!is_valid_unit(a[2])) throw new Error("Angle.cut_angle bad cut_unit");
+    if (!is_valid_unit(a[4])) throw new Error("Angle.cut_angle bad out_unit");
+    
+    const base_unit = a[0];
+    const base_value = a[1];
+    const cut_unit = a[2];
+    const cut_value = a[3];
+    const out_unit = a[4];
+    
+    const base_angle = Angle.from(base_unit, base_value);
+    const cut_angle_obj = Angle.from(cut_unit, cut_value);
+    base_angle.cut_angle(cut_angle_obj);
+    
+    switch(out_unit){
+      case AngleUnit.none: return base_angle.rad()
+      case AngleUnit.turn: return base_angle.turn()
+      case AngleUnit.mulp: return base_angle.mulp()
+      case AngleUnit.quad: return base_angle.quad()
+      case AngleUnit.sext: return base_angle.sext()
+      case AngleUnit.rad: return base_angle.rad()
+      case AngleUnit.hexa: return base_angle.hexa()
+      case AngleUnit.bdeg: return base_angle.bdeg()
+      case AngleUnit.deg: return base_angle.deg()
+      case AngleUnit.grad: return base_angle.grad()
+      case AngleUnit.marc: return base_angle.marc()
+      case AngleUnit.sarc: return base_angle.sarc()
+      default: throw new Error("Angle.cut_angle: switch failed. Should not happen");
+    }
+  },
   // executed_method_title: (a) => { ... },
 };
 

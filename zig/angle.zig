@@ -473,24 +473,24 @@ pub fn Angle(comptime T: type) type {
 
         // ==================== SUBTRACTION ====================
 
-        pub fn add_angle(self: *Self, angle: Self) *Self {
+        pub fn add_angle(self: *Self, angle: *const Self) *Self {
             self.value += angle.value;
             return self;
         }
 
-        pub fn negate(self: Self) Self {
+        pub fn negate(self: *Self) *Self {
             self.value = -self.value;
             return self;
         }
 
-        pub fn cut_angle(self: *Self, angle: Self) *Self {
-            try self.addAngle(angle.copy().negate());
+        pub fn cut_angle(self: *Self, angle: *const Self) *Self {
+            self.value -= angle.value;
             return self;
         }
 
         // ==================== UTILITY METHODS ====================
 
-        pub fn copy(self: Self) Self {
+        pub fn copy(self: *const Self) Self {
             var a = Self.init();
             a.value = self.value;
             return a;
