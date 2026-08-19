@@ -240,6 +240,30 @@ const methods: Record<string, Handler> = {
       default: throw new Error("Angle.from_sinh: switch failed. Should not happen");
     }
   },
+  from_cosh: (a) => {
+    if (a.length !== 2) throw new Error("call Angle.from_cosh needs 2 numbers");
+    if (!is_valid_unit(a[1])) throw new Error("Angle.from_cosh bad out_unit");
+    
+    const cosh_value = a[0];
+    const out_unit = a[1];
+    
+    const result = Angle.from_cosh(cosh_value);
+    switch(out_unit){
+      case AngleUnit.none: return result.rad()
+      case AngleUnit.turn: return result.turn()
+      case AngleUnit.mulp: return result.mulp()
+      case AngleUnit.quad: return result.quad()
+      case AngleUnit.sext: return result.sext()
+      case AngleUnit.rad: return result.rad()
+      case AngleUnit.hexa: return result.hexa()
+      case AngleUnit.bdeg: return result.bdeg()
+      case AngleUnit.deg: return result.deg()
+      case AngleUnit.grad: return result.grad()
+      case AngleUnit.marc: return result.marc()
+      case AngleUnit.sarc: return result.sarc()
+      default: throw new Error("Angle.from_cosh: switch failed. Should not happen");
+    }
+  },
   // executed_method_title: (a) => { ... },
 };
 

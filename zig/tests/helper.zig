@@ -143,6 +143,20 @@ pub const unit_helper = struct {
     pub const sinh_neg_60 = math.sinh(neg_rad_60);
     pub const sinh_neg_90 = math.sinh(neg_rad_90);
 
+    pub const cosh_0 = math.cosh(rad_0);
+    pub const cosh_20 = math.cosh(rad_20);
+    pub const cosh_30 = math.cosh(rad_30);
+    pub const cosh_45 = math.cosh(rad_45);
+    pub const cosh_60 = math.cosh(rad_60);
+    pub const cosh_90 = math.cosh(rad_90);
+
+    pub const cosh_neg_0 = math.cosh(neg_rad_0);
+    pub const cosh_neg_20 = math.cosh(neg_rad_20);
+    pub const cosh_neg_30 = math.cosh(neg_rad_30);
+    pub const cosh_neg_45 = math.cosh(neg_rad_45);
+    pub const cosh_neg_60 = math.cosh(neg_rad_60);
+    pub const cosh_neg_90 = math.cosh(neg_rad_90);
+
     pub const turn_0 = deg_0 * deg_to_turn;
     pub const turn_20 = deg_20 * deg_to_turn;
     pub const turn_30 = deg_30 * deg_to_turn;

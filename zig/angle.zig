@@ -166,7 +166,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_cosh(v: T) Self {
             var a = Self.init();
-            _ = a.useCosh(v);
+            _ = a.use_cosh(v);
             return a;
         }
 
@@ -455,7 +455,7 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = math.log(v + math.sqrt(v * v - 1));
+            self.value = math.log(T, math.e, v + math.sqrt(v * v - 1));
             return self;
         }
 
