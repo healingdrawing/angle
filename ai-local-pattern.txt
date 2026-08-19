@@ -10,7 +10,7 @@ zig/tests/test_from_*.zig(.txt)
 zig/tests/helper.zig(.txt)
 zig/test.zig(.txt)
 ts/terminalcall.ts
-For test.zig, and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
+For test.zig, helper.zig and terminalcall.ts, just response with code fragment to inject(no need full file code respond, it is huge pile of repeated text)
 
 extra info:
 * get value methods available for units:
