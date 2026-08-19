@@ -101,6 +101,20 @@ pub const unit_helper = struct {
     pub const sec_neg_60 = 1.0 / math.cos(neg_deg_60 * deg_to_rad);
     pub const sec_neg_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
 
+    pub const csc_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+    pub const csc_20 = 1.0 / math.sin(deg_20 * deg_to_rad);
+    pub const csc_30 = 1.0 / math.sin(deg_30 * deg_to_rad);
+    pub const csc_45 = 1.0 / math.sin(deg_45 * deg_to_rad);
+    pub const csc_60 = 1.0 / math.sin(deg_60 * deg_to_rad);
+    pub const csc_90 = 1.0 / math.sin(deg_90 * deg_to_rad);
+
+    pub const csc_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
+    pub const csc_neg_20 = 1.0 / math.sin(neg_deg_20 * deg_to_rad);
+    pub const csc_neg_30 = 1.0 / math.sin(neg_deg_30 * deg_to_rad);
+    pub const csc_neg_45 = 1.0 / math.sin(neg_deg_45 * deg_to_rad);
+    pub const csc_neg_60 = 1.0 / math.sin(neg_deg_60 * deg_to_rad);
+    pub const csc_neg_90 = 1.0 / math.sin(neg_deg_90 * deg_to_rad);
+
     pub const rad_0 = deg_0 * deg_to_rad;
     pub const rad_20 = deg_20 * deg_to_rad;
     pub const rad_30 = deg_30 * deg_to_rad;

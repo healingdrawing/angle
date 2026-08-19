@@ -153,7 +153,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_csc(v: T) Self {
             var a = Self.init();
-            _ = a.useCsc(v);
+            _ = a.use_csc(v);
             return a;
         }
 
