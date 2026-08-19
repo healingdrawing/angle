@@ -6,6 +6,17 @@ pub const unit_helper = struct {
     pub const pi = math.pi;
     pub const pix2 = pi * 2;
 
+    pub const deg_to_rad = math.rad_per_deg;
+    pub const deg_to_turn = 1.0 / 360.0;
+    pub const deg_to_mulp = 1.0 / 180.0;
+    pub const deg_to_quad = 1.0 / 90.0;
+    pub const deg_to_sext = 1.0 / 60.0;
+    pub const deg_to_hexa = 1.0 / 6.0;
+    pub const deg_to_bdeg = 256.0 / 360.0;
+    pub const deg_to_grad = 200.0 / 180.0;
+    pub const deg_to_marc = 60.0;
+    pub const deg_to_sarc = 3600.0;
+
     pub const deg_0 = 0.0;
     pub const deg_20 = 20.0;
     pub const deg_30 = 30.0;
@@ -20,107 +31,12 @@ pub const unit_helper = struct {
     pub const neg_deg_60 = -deg_60;
     pub const neg_deg_90 = -deg_90;
 
-    pub const deg_to_rad = math.rad_per_deg;
-    pub const deg_to_turn = 1.0 / 360.0;
-    pub const deg_to_mulp = 1.0 / 180.0;
-    pub const deg_to_quad = 1.0 / 90.0;
-    pub const deg_to_sext = 1.0 / 60.0;
-    pub const deg_to_hexa = 1.0 / 6.0;
-    pub const deg_to_bdeg = 256.0 / 360.0;
-    pub const deg_to_grad = 200.0 / 180.0;
-    pub const deg_to_marc = 60.0;
-    pub const deg_to_sarc = 3600.0;
-
-    pub const sin_0 = math.sin(deg_0 * deg_to_rad);
-    pub const sin_20 = math.sin(deg_20 * deg_to_rad);
-    pub const sin_30 = math.sin(deg_30 * deg_to_rad);
-    pub const sin_45 = math.sin(deg_45 * deg_to_rad);
-    pub const sin_60 = math.sin(deg_60 * deg_to_rad);
-    pub const sin_90 = math.sin(deg_90 * deg_to_rad);
-
-    pub const sin_neg_0 = math.sin(neg_deg_0 * deg_to_rad);
-    pub const sin_neg_20 = math.sin(neg_deg_20 * deg_to_rad);
-    pub const sin_neg_30 = math.sin(neg_deg_30 * deg_to_rad);
-    pub const sin_neg_45 = math.sin(neg_deg_45 * deg_to_rad);
-    pub const sin_neg_60 = math.sin(neg_deg_60 * deg_to_rad);
-    pub const sin_neg_90 = math.sin(neg_deg_90 * deg_to_rad);
-
-    pub const cos_0 = math.cos(deg_0 * deg_to_rad); // 1
-    pub const cos_20 = math.cos(deg_20 * deg_to_rad); // 0.9+
-    pub const cos_30 = math.cos(deg_30 * deg_to_rad); // 0.866
-    pub const cos_45 = math.cos(deg_45 * deg_to_rad); // 0.707
-    pub const cos_60 = math.cos(deg_60 * deg_to_rad); // 0.5
-    pub const cos_90 = math.cos(deg_90 * deg_to_rad); // 0
-
-    pub const cos_neg_0 = math.cos(neg_deg_0 * deg_to_rad);
-    pub const cos_neg_20 = math.cos(neg_deg_20 * deg_to_rad);
-    pub const cos_neg_30 = math.cos(neg_deg_30 * deg_to_rad);
-    pub const cos_neg_45 = math.cos(neg_deg_45 * deg_to_rad);
-    pub const cos_neg_60 = math.cos(neg_deg_60 * deg_to_rad);
-    pub const cos_neg_90 = math.cos(neg_deg_90 * deg_to_rad);
-
-    pub const tan_0 = math.tan(deg_0 * deg_to_rad);
-    pub const tan_20 = math.tan(deg_20 * deg_to_rad);
-    pub const tan_30 = math.tan(deg_30 * deg_to_rad);
-    pub const tan_45 = math.tan(deg_45 * deg_to_rad);
-    pub const tan_60 = math.tan(deg_60 * deg_to_rad);
-    pub const tan_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
-
-    pub const tan_neg_0 = math.tan(neg_deg_0 * deg_to_rad);
-    pub const tan_neg_20 = math.tan(neg_deg_20 * deg_to_rad);
-    pub const tan_neg_30 = math.tan(neg_deg_30 * deg_to_rad);
-    pub const tan_neg_45 = math.tan(neg_deg_45 * deg_to_rad);
-    pub const tan_neg_60 = math.tan(neg_deg_60 * deg_to_rad);
-    pub const tan_neg_90 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
-
-    pub const cot_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
-    pub const cot_20 = 1.0 / math.tan(deg_20 * deg_to_rad);
-    pub const cot_30 = 1.0 / math.tan(deg_30 * deg_to_rad);
-    pub const cot_45 = 1.0 / math.tan(deg_45 * deg_to_rad);
-    pub const cot_60 = 1.0 / math.tan(deg_60 * deg_to_rad);
-    pub const cot_90 = 0.0;
-
-    pub const cot_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
-    pub const cot_neg_20 = 1.0 / math.tan(neg_deg_20 * deg_to_rad);
-    pub const cot_neg_30 = 1.0 / math.tan(neg_deg_30 * deg_to_rad);
-    pub const cot_neg_45 = 1.0 / math.tan(neg_deg_45 * deg_to_rad);
-    pub const cot_neg_60 = 1.0 / math.tan(neg_deg_60 * deg_to_rad);
-    pub const cot_neg_90 = -0.0;
-
-    pub const sec_0 = 1.0 / math.cos(deg_0 * deg_to_rad);
-    pub const sec_20 = 1.0 / math.cos(deg_20 * deg_to_rad);
-    pub const sec_30 = 1.0 / math.cos(deg_30 * deg_to_rad);
-    pub const sec_45 = 1.0 / math.cos(deg_45 * deg_to_rad);
-    pub const sec_60 = 1.0 / math.cos(deg_60 * deg_to_rad);
-    pub const sec_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
-
-    pub const sec_neg_0 = 1.0 / math.cos(neg_deg_0 * deg_to_rad);
-    pub const sec_neg_20 = 1.0 / math.cos(neg_deg_20 * deg_to_rad);
-    pub const sec_neg_30 = 1.0 / math.cos(neg_deg_30 * deg_to_rad);
-    pub const sec_neg_45 = 1.0 / math.cos(neg_deg_45 * deg_to_rad);
-    pub const sec_neg_60 = 1.0 / math.cos(neg_deg_60 * deg_to_rad);
-    pub const sec_neg_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
-
-    pub const csc_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
-    pub const csc_20 = 1.0 / math.sin(deg_20 * deg_to_rad);
-    pub const csc_30 = 1.0 / math.sin(deg_30 * deg_to_rad);
-    pub const csc_45 = 1.0 / math.sin(deg_45 * deg_to_rad);
-    pub const csc_60 = 1.0 / math.sin(deg_60 * deg_to_rad);
-    pub const csc_90 = 1.0 / math.sin(deg_90 * deg_to_rad);
-
-    pub const csc_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
-    pub const csc_neg_20 = 1.0 / math.sin(neg_deg_20 * deg_to_rad);
-    pub const csc_neg_30 = 1.0 / math.sin(neg_deg_30 * deg_to_rad);
-    pub const csc_neg_45 = 1.0 / math.sin(neg_deg_45 * deg_to_rad);
-    pub const csc_neg_60 = 1.0 / math.sin(neg_deg_60 * deg_to_rad);
-    pub const csc_neg_90 = 1.0 / math.sin(neg_deg_90 * deg_to_rad);
-
-    pub const rad_0 = deg_0 * deg_to_rad;
-    pub const rad_20 = deg_20 * deg_to_rad;
-    pub const rad_30 = deg_30 * deg_to_rad;
-    pub const rad_45 = deg_45 * deg_to_rad;
-    pub const rad_60 = deg_60 * deg_to_rad;
-    pub const rad_90 = deg_90 * deg_to_rad;
+    pub const rad_0: f32 = deg_0 * deg_to_rad; //warning stick with f32, math.sinh etc
+    pub const rad_20: f32 = deg_20 * deg_to_rad;
+    pub const rad_30: f32 = deg_30 * deg_to_rad;
+    pub const rad_45: f32 = deg_45 * deg_to_rad;
+    pub const rad_60: f32 = deg_60 * deg_to_rad;
+    pub const rad_90: f32 = deg_90 * deg_to_rad;
 
     pub const neg_rad_0 = -rad_0;
     pub const neg_rad_20 = -rad_20;
@@ -128,6 +44,104 @@ pub const unit_helper = struct {
     pub const neg_rad_45 = -rad_45;
     pub const neg_rad_60 = -rad_60;
     pub const neg_rad_90 = -rad_90;
+
+    pub const sin_0 = math.sin(rad_0);
+    pub const sin_20 = math.sin(rad_20);
+    pub const sin_30 = math.sin(rad_30);
+    pub const sin_45 = math.sin(rad_45);
+    pub const sin_60 = math.sin(rad_60);
+    pub const sin_90 = math.sin(rad_90);
+
+    pub const sin_neg_0 = math.sin(neg_rad_0);
+    pub const sin_neg_20 = math.sin(neg_rad_20);
+    pub const sin_neg_30 = math.sin(neg_rad_30);
+    pub const sin_neg_45 = math.sin(neg_rad_45);
+    pub const sin_neg_60 = math.sin(neg_rad_60);
+    pub const sin_neg_90 = math.sin(neg_rad_90);
+
+    pub const cos_0 = math.cos(rad_0); // 1
+    pub const cos_20 = math.cos(rad_20); // 0.9+
+    pub const cos_30 = math.cos(rad_30); // 0.866
+    pub const cos_45 = math.cos(rad_45); // 0.707
+    pub const cos_60 = math.cos(rad_60); // 0.5
+    pub const cos_90 = math.cos(rad_90); // 0
+
+    pub const cos_neg_0 = math.cos(neg_rad_0);
+    pub const cos_neg_20 = math.cos(neg_rad_20);
+    pub const cos_neg_30 = math.cos(neg_rad_30);
+    pub const cos_neg_45 = math.cos(neg_rad_45);
+    pub const cos_neg_60 = math.cos(neg_rad_60);
+    pub const cos_neg_90 = math.cos(neg_rad_90);
+
+    pub const tan_0 = math.tan(rad_0);
+    pub const tan_20 = math.tan(rad_20);
+    pub const tan_30 = math.tan(rad_30);
+    pub const tan_45 = math.tan(rad_45);
+    pub const tan_60 = math.tan(rad_60);
+    pub const tan_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+
+    pub const tan_neg_0 = math.tan(neg_rad_0);
+    pub const tan_neg_20 = math.tan(neg_rad_20);
+    pub const tan_neg_30 = math.tan(neg_rad_30);
+    pub const tan_neg_45 = math.tan(neg_rad_45);
+    pub const tan_neg_60 = math.tan(neg_rad_60);
+    pub const tan_neg_90 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
+
+    pub const cot_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+    pub const cot_20 = 1.0 / math.tan(rad_20);
+    pub const cot_30 = 1.0 / math.tan(rad_30);
+    pub const cot_45 = 1.0 / math.tan(rad_45);
+    pub const cot_60 = 1.0 / math.tan(rad_60);
+    pub const cot_90 = 0.0;
+
+    pub const cot_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
+    pub const cot_neg_20 = 1.0 / math.tan(neg_rad_20);
+    pub const cot_neg_30 = 1.0 / math.tan(neg_rad_30);
+    pub const cot_neg_45 = 1.0 / math.tan(neg_rad_45);
+    pub const cot_neg_60 = 1.0 / math.tan(neg_rad_60);
+    pub const cot_neg_90 = -0.0;
+
+    pub const sec_0 = 1.0 / math.cos(rad_0);
+    pub const sec_20 = 1.0 / math.cos(rad_20);
+    pub const sec_30 = 1.0 / math.cos(rad_30);
+    pub const sec_45 = 1.0 / math.cos(rad_45);
+    pub const sec_60 = 1.0 / math.cos(rad_60);
+    pub const sec_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+
+    pub const sec_neg_0 = 1.0 / math.cos(neg_rad_0);
+    pub const sec_neg_20 = 1.0 / math.cos(neg_rad_20);
+    pub const sec_neg_30 = 1.0 / math.cos(neg_rad_30);
+    pub const sec_neg_45 = 1.0 / math.cos(neg_rad_45);
+    pub const sec_neg_60 = 1.0 / math.cos(neg_rad_60);
+    pub const sec_neg_90 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+
+    pub const csc_0 = angle.AngleF32.inf; // warning stick with f32, gamedev related
+    pub const csc_20 = 1.0 / math.sin(rad_20);
+    pub const csc_30 = 1.0 / math.sin(rad_30);
+    pub const csc_45 = 1.0 / math.sin(rad_45);
+    pub const csc_60 = 1.0 / math.sin(rad_60);
+    pub const csc_90 = 1.0 / math.sin(rad_90);
+
+    pub const csc_neg_0 = angle.AngleF32.neg_inf; // warning stick with f32, gamedev related
+    pub const csc_neg_20 = 1.0 / math.sin(neg_rad_20);
+    pub const csc_neg_30 = 1.0 / math.sin(neg_rad_30);
+    pub const csc_neg_45 = 1.0 / math.sin(neg_rad_45);
+    pub const csc_neg_60 = 1.0 / math.sin(neg_rad_60);
+    pub const csc_neg_90 = 1.0 / math.sin(neg_rad_90);
+
+    pub const sinh_0 = math.sinh(rad_0);
+    pub const sinh_20 = math.sinh(rad_20);
+    pub const sinh_30 = math.sinh(rad_30);
+    pub const sinh_45 = math.sinh(rad_45);
+    pub const sinh_60 = math.sinh(rad_60);
+    pub const sinh_90 = math.sinh(rad_90);
+
+    pub const sinh_neg_0 = math.sinh(neg_rad_0);
+    pub const sinh_neg_20 = math.sinh(neg_rad_20);
+    pub const sinh_neg_30 = math.sinh(neg_rad_30);
+    pub const sinh_neg_45 = math.sinh(neg_rad_45);
+    pub const sinh_neg_60 = math.sinh(neg_rad_60);
+    pub const sinh_neg_90 = math.sinh(neg_rad_90);
 
     pub const turn_0 = deg_0 * deg_to_turn;
     pub const turn_20 = deg_20 * deg_to_turn;

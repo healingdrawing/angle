@@ -160,7 +160,7 @@ pub fn Angle(comptime T: type) type {
         // Hyperbolic factories
         pub fn from_sinh(v: T) Self {
             var a = Self.init();
-            _ = a.useSinh(v);
+            _ = a.use_sinh(v);
             return a;
         }
 
@@ -450,7 +450,7 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = math.log(v + math.sqrt(v * v + 1));
+            self.value = math.log(T, math.e, v + math.sqrt(v * v + 1));
             return self;
         }
 

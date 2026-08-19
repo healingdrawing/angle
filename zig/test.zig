@@ -10,6 +10,7 @@ const test_from_tan = @import("tests/test_from_tan.zig").test_from_tan;
 const test_from_cot = @import("tests/test_from_cot.zig").test_from_cot;
 const test_from_sec = @import("tests/test_from_sec.zig").test_from_sec;
 const test_from_csc = @import("tests/test_from_csc.zig").test_from_csc;
+const test_from_sinh = @import("tests/test_from_sinh.zig").test_from_sinh;
 
 pub fn main(init: std.process.Init) !void {
     dp.init_from_env_map(init.environ_map);
@@ -25,6 +26,7 @@ pub fn main(init: std.process.Init) !void {
         try test_from_cot(epsilon),
         try test_from_sec(epsilon),
         try test_from_csc(epsilon),
+        try test_from_sinh(epsilon),
     };
 
     report.print_test_sum_report(&results);
