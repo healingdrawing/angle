@@ -147,7 +147,7 @@ pub fn Angle(comptime T: type) type {
 
         pub fn from_sec(v: T) Self {
             var a = Self.init();
-            _ = a.useSec(v);
+            _ = a.use_sec(v);
             return a;
         }
 
