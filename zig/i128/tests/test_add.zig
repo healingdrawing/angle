@@ -2,11 +2,11 @@ const std = @import("std");
 const dp = @import("../utils/debug.zig");
 const data_add = @import("data_add.zig");
 const floatUtils = @import("float.zig");
-const angle = @import("../angle.zig").AngleF32;
+const angle = @import("../angle.zig").AngleF128;
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 
-pub fn test_add(epsilon: f32) !report.MethodResult {
+pub fn test_add(epsilon: f128) !report.MethodResult {
     const allocator = std.heap.page_allocator;
     var failed: usize = 0;
 
@@ -58,7 +58,7 @@ pub fn test_add(epsilon: f32) !report.MethodResult {
         defer allocator.free(ts_result);
 
         // expected from data file (zero-cost)
-        const expected: []const f32 = &tcase.outarr;
+        const expected: []const f128 = &tcase.outarr;
 
         const ok_zig_exp = try floatUtils.arrays_equal(zig_result, expected, epsilon);
         const ok_ts_exp = try floatUtils.arrays_equal(ts_result, expected, epsilon);

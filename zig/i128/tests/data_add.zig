@@ -1,15 +1,15 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
-const uh = @import("helper.zig").unit_helper;
+const uh = @import("helper.zig").unit_helper(f128);
 
 pub const TestCase = struct {
     in_unit: unit,
-    in_value: f32,
+    in_value: f128,
     add_unit: unit,
-    add_value: f32,
+    add_value: f128,
     out_unit: unit,
-    outarr: [1]f32,
+    outarr: [1]f128,
 };
 
 const pi = uh.pi;
