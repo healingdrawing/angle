@@ -93,13 +93,13 @@ pub fn Angle(comptime T: type) type {
 
             // Large: avoid overflow, use log(|v|) + ln(2)
             if (abs_v > @as(T, 1e20)) {
-                const LN2 = math.log(T, math.e, @as(T, 2));
+                const LN2 = @log(@as(T, 2));
                 const sgn = if (v < 0) -@as(T, 1) else @as(T, 1);
-                return sgn * (math.log(T, math.e, abs_v) + LN2);
+                return sgn * (@log(abs_v) + LN2);
             }
 
             // Standard formula
-            return math.log(T, math.e, v + math.sqrt(v * v + @as(T, 1)));
+            return @log(v + math.sqrt(v * v + @as(T, 1)));
         }
 
         pub fn acosh(v: T) T {
@@ -117,12 +117,12 @@ pub fn Angle(comptime T: type) type {
 
             // Large: avoid overflow, use log(2*v)
             if (v > @as(T, 1e20)) {
-                const LN2 = math.log(T, math.e, @as(T, 2));
-                return math.log(T, math.e, v) + LN2;
+                const LN2 = @log(@as(T, 2));
+                return @log(v) + LN2;
             }
 
             // Standard formula
-            return math.log(T, math.e, v + math.sqrt(v * v - @as(T, 1)));
+            return @log(v + math.sqrt(v * v - @as(T, 1)));
         }
 
         pub fn atanh(v: T) T {
@@ -135,7 +135,7 @@ pub fn Angle(comptime T: type) type {
             if (abs_v < epsilon) return v;
 
             // Standard formula
-            return math.log(T, math.e, (@as(T, 1) + v) / (@as(T, 1) - v)) / @as(T, 2);
+            return @log((@as(T, 1) + v) / (@as(T, 1) - v)) / @as(T, 2);
         }
 
         // --- Wrapper factories for each unit ---
