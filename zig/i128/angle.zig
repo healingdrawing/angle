@@ -508,32 +508,32 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = @as(i128, @intFromFloat(asinh(v) * rad_to_sarc));
+            self.value = @trunc(asinh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = acosh(v);
+            self.value = @trunc(acosh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = atanh(v);
+            self.value = @trunc(atanh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_coth(self: *Self, v: T) *Self {
-            self.value = atanh(1 / v);
+            self.value = @trunc(atanh(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_sech(self: *Self, v: T) *Self {
-            self.value = acosh(1 / v);
+            self.value = @trunc(acosh(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = asinh(1 / v);
+            self.value = @as(i128, @trunc(asinh(1 / v) * rad_to_sarc));
             return self;
         }
 
@@ -581,15 +581,17 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn normalize(self: *Self) *Self {
-            self.value = @mod(self.value, pix2);
-            if (self.value < 0) {
-                self.value += pix2;
-            }
+            _ = self;
+            unreachable;
+            // self.value = @mod(self.value, pix2);
+            // if (self.value < 0) {
+            //     self.value += pix2;
+            // }
             //todo //warning patch to solve new fail, but i would like to wait for this. Up to sarc refactoring
             // if (self.value >= pix2 - 1e-30 or self.value < 1e-30) {
             //     self.value = 0;
             // }
-            return self;
+            // return self;
         }
 
         pub fn info_print(self: *Self, precision: u32) void {
