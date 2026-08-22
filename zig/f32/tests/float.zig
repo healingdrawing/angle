@@ -33,8 +33,6 @@ pub inline fn floats_equal(comptime T: type, a: T, b: T, epsilon: T) bool {
     const magnitude = @max(@abs(a), @abs(b));
     const adaptive_epsilon = epsilon * @max(@as(T, 1), magnitude);
 
-    std.debug.print("adaptive epsilon: {d}\n@abs(a-b): {d}\n", .{ adaptive_epsilon, @abs(a - b) }); // todo remove later
-
     return @abs(a - b) <= adaptive_epsilon;
 }
 
@@ -124,7 +122,6 @@ pub fn vectors_to_string(comptime T: type, allocator: std.mem.Allocator, inputs:
         } else if (type_info == .float) {
             try append_float_string(allocator, &result, @as(T, item));
         } else if (type_info == .int) {
-            // Use @as(T, item) - Zig handles int→float coercion
             try append_float_string(allocator, &result, @as(T, item));
         }
     }
