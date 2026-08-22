@@ -478,62 +478,62 @@ pub fn Angle(comptime T: type) type {
         // ==================== USE FROM TRIG ====================
 
         pub fn use_sin(self: *Self, v: T) *Self {
-            self.value = @trunc(math.asin(v) * rad_to_sarc);
+            self.value = @round(math.asin(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_cos(self: *Self, v: T) *Self {
-            self.value = @trunc(math.acos(v) * rad_to_sarc);
+            self.value = @round(math.acos(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_tan(self: *Self, v: T) *Self {
-            self.value = @trunc(math.atan(v) * rad_to_sarc);
+            self.value = @round(math.atan(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_cot(self: *Self, v: T) *Self {
-            self.value = @trunc(math.atan(1 / v) * rad_to_sarc);
+            self.value = @round(math.atan(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_sec(self: *Self, v: T) *Self {
-            self.value = @trunc(math.acos(1 / v) * rad_to_sarc);
+            self.value = @round(math.acos(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_csc(self: *Self, v: T) *Self {
-            self.value = @trunc(math.asin(1 / v) * rad_to_sarc);
+            self.value = @round(math.asin(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = @trunc(asinh(v) * rad_to_sarc);
+            self.value = @round(asinh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = @trunc(acosh(v) * rad_to_sarc);
+            self.value = @round(acosh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = @trunc(atanh(v) * rad_to_sarc);
+            self.value = @round(atanh(v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_coth(self: *Self, v: T) *Self {
-            self.value = @trunc(atanh(1 / v) * rad_to_sarc);
+            self.value = @round(atanh(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_sech(self: *Self, v: T) *Self {
-            self.value = @trunc(acosh(1 / v) * rad_to_sarc);
+            self.value = @round(acosh(1 / v) * rad_to_sarc);
             return self;
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = @trunc(asinh(1 / v) * rad_to_sarc);
+            self.value = @round(asinh(1 / v) * rad_to_sarc);
             return self;
         }
 
@@ -546,12 +546,12 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value = @trunc(val * UNIT_TO_SARC[@intFromEnum(unit)]);
+            self.value = @round(val * UNIT_TO_SARC[@intFromEnum(unit)]);
             return self;
         }
 
         pub fn add(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value += @trunc(val * UNIT_TO_SARC[@intFromEnum(unit)]);
+            self.value += @round(val * UNIT_TO_SARC[@intFromEnum(unit)]);
             return self;
         }
 
