@@ -1,7 +1,7 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
-const uh = @import("helper.zig").unit_helper;
+const uh = @import("helper.zig").unit_helper(f32);
 
 pub const TestCase = struct {
     in_unit: unit,
@@ -348,20 +348,6 @@ pub const cases = [_]TestCase{
         .in_value = 100,
         .out_unit = unit.deg,
         .outarr = .{90},
-    },
-
-    // === NONE UNIT (alias for radian) ===
-    .{
-        .in_unit = unit.none,
-        .in_value = 2,
-        .out_unit = unit.rad,
-        .outarr = .{2},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = 2,
-        .out_unit = unit.none,
-        .outarr = .{2},
     },
 
     // === SMALL VALUES (precision check) ===

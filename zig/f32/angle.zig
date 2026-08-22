@@ -2,18 +2,17 @@ const std = @import("std");
 const math = std.math;
 
 pub const AngleUnit = enum(u8) {
-    none = 0,
-    turn = 1,
-    mulp = 2,
-    quad = 3,
-    sext = 4,
-    rad = 5,
-    hexa = 6,
-    bdeg = 7,
-    deg = 8,
-    grad = 9,
-    marc = 10,
-    sarc = 11,
+    turn = 0,
+    mulp = 1,
+    quad = 2,
+    sext = 3,
+    rad = 4,
+    hexa = 5,
+    bdeg = 6,
+    deg = 7,
+    grad = 8,
+    marc = 9,
+    sarc = 10,
 };
 
 pub fn Angle(comptime T: type) type {
@@ -25,8 +24,7 @@ pub fn Angle(comptime T: type) type {
         pub const neg_inf = -math.inf(T); // -infinity for type T
 
         const CONVERSION_TO_RAD = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = 1.0;
+            var factors: [11]T = undefined;
             factors[@intFromEnum(AngleUnit.turn)] = pix2;
             factors[@intFromEnum(AngleUnit.mulp)] = pi;
             factors[@intFromEnum(AngleUnit.quad)] = pi / 2.0;
@@ -42,8 +40,7 @@ pub fn Angle(comptime T: type) type {
         };
 
         const CONVERSION_FROM_RAD = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = 1.0;
+            var factors: [11]T = undefined;
             factors[@intFromEnum(AngleUnit.turn)] = 1.0 / (2 * pi);
             factors[@intFromEnum(AngleUnit.mulp)] = 1.0 / pi;
             factors[@intFromEnum(AngleUnit.quad)] = 2.0 / pi;
@@ -500,6 +497,9 @@ pub fn Angle(comptime T: type) type {
             self.value = @mod(self.value, pix2);
             if (self.value < 0) {
                 self.value += pix2;
+            }
+            if (self.value >= pix2 - 1e-30 or self.value < 1e-30) {
+                self.value = 0;
             }
             return self;
         }

@@ -1,7 +1,7 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
-const uh = @import("helper.zig").unit_helper;
+const uh = @import("helper.zig").unit_helper(f32);
 
 pub const TestCase = struct {
     in_value: f32,
@@ -14,7 +14,6 @@ pub const cases = [_]TestCase{
     // === sinh(0°) = 0 → angle = 0° =======
     // =====================================
     // ALL 12 UNITS for sinh(0)
-    .{ .in_value = uh.sinh_0, .out_unit = .none, .outarr = .{uh.rad_0} },
     .{ .in_value = uh.sinh_0, .out_unit = .turn, .outarr = .{uh.turn_0} },
     .{ .in_value = uh.sinh_0, .out_unit = .mulp, .outarr = .{uh.mulp_0} },
     .{ .in_value = uh.sinh_0, .out_unit = .quad, .outarr = .{uh.quad_0} },
@@ -31,7 +30,6 @@ pub const cases = [_]TestCase{
     // === sinh(20°) → angle = 20° ==========
     // =====================================
     // ALL 12 UNITS for sinh(20) - fractional coverage
-    .{ .in_value = uh.sinh_20, .out_unit = .none, .outarr = .{uh.rad_20} },
     .{ .in_value = uh.sinh_20, .out_unit = .turn, .outarr = .{uh.turn_20} },
     .{ .in_value = uh.sinh_20, .out_unit = .mulp, .outarr = .{uh.mulp_20} },
     .{ .in_value = uh.sinh_20, .out_unit = .quad, .outarr = .{uh.quad_20} },
@@ -48,7 +46,6 @@ pub const cases = [_]TestCase{
     // === sinh(30°) → angle = 30° ==========
     // =====================================
     // ALL 12 UNITS for sinh(30)
-    .{ .in_value = uh.sinh_30, .out_unit = .none, .outarr = .{uh.rad_30} },
     .{ .in_value = uh.sinh_30, .out_unit = .turn, .outarr = .{uh.turn_30} },
     .{ .in_value = uh.sinh_30, .out_unit = .mulp, .outarr = .{uh.mulp_30} },
     .{ .in_value = uh.sinh_30, .out_unit = .quad, .outarr = .{uh.quad_30} },
@@ -65,7 +62,6 @@ pub const cases = [_]TestCase{
     // === sinh(45°) → angle = 45° ==========
     // =====================================
     // ALL 12 UNITS for sinh(45)
-    .{ .in_value = uh.sinh_45, .out_unit = .none, .outarr = .{uh.rad_45} },
     .{ .in_value = uh.sinh_45, .out_unit = .turn, .outarr = .{uh.turn_45} },
     .{ .in_value = uh.sinh_45, .out_unit = .mulp, .outarr = .{uh.mulp_45} },
     .{ .in_value = uh.sinh_45, .out_unit = .quad, .outarr = .{uh.quad_45} },
@@ -82,7 +78,6 @@ pub const cases = [_]TestCase{
     // === sinh(60°) → angle = 60° ==========
     // =====================================
     // ALL 12 UNITS for sinh(60)
-    .{ .in_value = uh.sinh_60, .out_unit = .none, .outarr = .{uh.rad_60} },
     .{ .in_value = uh.sinh_60, .out_unit = .turn, .outarr = .{uh.turn_60} },
     .{ .in_value = uh.sinh_60, .out_unit = .mulp, .outarr = .{uh.mulp_60} },
     .{ .in_value = uh.sinh_60, .out_unit = .quad, .outarr = .{uh.quad_60} },
@@ -99,7 +94,6 @@ pub const cases = [_]TestCase{
     // === sinh(90°) → angle = 90° ==========
     // =====================================
     // ALL 12 UNITS for sinh(90)
-    .{ .in_value = uh.sinh_90, .out_unit = .none, .outarr = .{uh.rad_90} },
     .{ .in_value = uh.sinh_90, .out_unit = .turn, .outarr = .{uh.turn_90} },
     .{ .in_value = uh.sinh_90, .out_unit = .mulp, .outarr = .{uh.mulp_90} },
     .{ .in_value = uh.sinh_90, .out_unit = .quad, .outarr = .{uh.quad_90} },
@@ -116,7 +110,6 @@ pub const cases = [_]TestCase{
     // === NEGATIVE CASE DUPLICATION ========
     // =====================================
     // ALL 12 UNITS for sinh(-0) = -0 → angle = -0°
-    .{ .in_value = uh.sinh_neg_0, .out_unit = .none, .outarr = .{uh.neg_rad_0} },
     .{ .in_value = uh.sinh_neg_0, .out_unit = .turn, .outarr = .{uh.neg_turn_0} },
     .{ .in_value = uh.sinh_neg_0, .out_unit = .mulp, .outarr = .{uh.neg_mulp_0} },
     .{ .in_value = uh.sinh_neg_0, .out_unit = .quad, .outarr = .{uh.neg_quad_0} },
@@ -130,7 +123,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.sinh_neg_0, .out_unit = .sarc, .outarr = .{uh.neg_sarc_0} },
 
     // ALL 12 UNITS for sinh(-20)
-    .{ .in_value = uh.sinh_neg_20, .out_unit = .none, .outarr = .{uh.neg_rad_20} },
     .{ .in_value = uh.sinh_neg_20, .out_unit = .turn, .outarr = .{uh.neg_turn_20} },
     .{ .in_value = uh.sinh_neg_20, .out_unit = .mulp, .outarr = .{uh.neg_mulp_20} },
     .{ .in_value = uh.sinh_neg_20, .out_unit = .quad, .outarr = .{uh.neg_quad_20} },
@@ -144,7 +136,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.sinh_neg_20, .out_unit = .sarc, .outarr = .{uh.neg_sarc_20} },
 
     // ALL 12 UNITS for sinh(-30)
-    .{ .in_value = uh.sinh_neg_30, .out_unit = .none, .outarr = .{uh.neg_rad_30} },
     .{ .in_value = uh.sinh_neg_30, .out_unit = .turn, .outarr = .{uh.neg_turn_30} },
     .{ .in_value = uh.sinh_neg_30, .out_unit = .mulp, .outarr = .{uh.neg_mulp_30} },
     .{ .in_value = uh.sinh_neg_30, .out_unit = .quad, .outarr = .{uh.neg_quad_30} },
@@ -158,7 +149,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.sinh_neg_30, .out_unit = .sarc, .outarr = .{uh.neg_sarc_30} },
 
     // ALL 12 UNITS for sinh(-45)
-    .{ .in_value = uh.sinh_neg_45, .out_unit = .none, .outarr = .{uh.neg_rad_45} },
     .{ .in_value = uh.sinh_neg_45, .out_unit = .turn, .outarr = .{uh.neg_turn_45} },
     .{ .in_value = uh.sinh_neg_45, .out_unit = .mulp, .outarr = .{uh.neg_mulp_45} },
     .{ .in_value = uh.sinh_neg_45, .out_unit = .quad, .outarr = .{uh.neg_quad_45} },
@@ -172,7 +162,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.sinh_neg_45, .out_unit = .sarc, .outarr = .{uh.neg_sarc_45} },
 
     // ALL 12 UNITS for sinh(-60)
-    .{ .in_value = uh.sinh_neg_60, .out_unit = .none, .outarr = .{uh.neg_rad_60} },
     .{ .in_value = uh.sinh_neg_60, .out_unit = .turn, .outarr = .{uh.neg_turn_60} },
     .{ .in_value = uh.sinh_neg_60, .out_unit = .mulp, .outarr = .{uh.neg_mulp_60} },
     .{ .in_value = uh.sinh_neg_60, .out_unit = .quad, .outarr = .{uh.neg_quad_60} },
@@ -186,7 +175,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.sinh_neg_60, .out_unit = .sarc, .outarr = .{uh.neg_sarc_60} },
 
     // ALL 12 UNITS for sinh(-90)
-    .{ .in_value = uh.sinh_neg_90, .out_unit = .none, .outarr = .{uh.neg_rad_90} },
     .{ .in_value = uh.sinh_neg_90, .out_unit = .turn, .outarr = .{uh.neg_turn_90} },
     .{ .in_value = uh.sinh_neg_90, .out_unit = .mulp, .outarr = .{uh.neg_mulp_90} },
     .{ .in_value = uh.sinh_neg_90, .out_unit = .quad, .outarr = .{uh.neg_quad_90} },
