@@ -2,18 +2,17 @@
  * Angle enum with various angular units
  */
 export enum AngleUnit {
-  none = 0,
-  turn = 1,
-  mulp = 2,
-  quad = 3,
-  sext = 4,
-  rad = 5,
-  hexa = 6,
-  bdeg = 7,
-  deg = 8,
-  grad = 9,
-  marc = 10,
-  sarc = 11
+  turn = 0,
+  mulp = 1,
+  quad = 2,
+  sext = 3,
+  rad = 4,
+  hexa = 5,
+  bdeg = 6,
+  deg = 7,
+  grad = 8,
+  marc = 9,
+  sarc = 10,
 }
 
 /**
@@ -28,7 +27,6 @@ export class Angle {
    * Static lookup table for unit conversion factors (to radians)
    */
   private static readonly CONVERSION_TO_RAD: Readonly<Record<AngleUnit, number>> = {
-      [AngleUnit.none]: 1,
       [AngleUnit.turn]: Angle.pix2,
       [AngleUnit.mulp]: Angle.pi,
       [AngleUnit.quad]: Angle.pi / 2,
@@ -47,7 +45,6 @@ export class Angle {
    * Reciprocal of TO_RAD - used by getters
    */
   private static readonly CONVERSION_FROM_RAD: Readonly<Record<AngleUnit, number>> = {
-      [AngleUnit.none]: 1,
       [AngleUnit.turn]: 1 / Angle.pix2,
       [AngleUnit.mulp]: 1 / Angle.pi,
       [AngleUnit.quad]: 2 / Angle.pi,

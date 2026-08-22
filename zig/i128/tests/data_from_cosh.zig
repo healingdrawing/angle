@@ -14,7 +14,6 @@ pub const cases = [_]TestCase{
     // === cosh(0°) = 1 → angle = 0° =======
     // =====================================
     // ALL 12 UNITS for cosh(0)
-    .{ .in_value = uh.cosh_0, .out_unit = .none, .outarr = .{uh.rad_0} },
     .{ .in_value = uh.cosh_0, .out_unit = .turn, .outarr = .{uh.turn_0} },
     .{ .in_value = uh.cosh_0, .out_unit = .mulp, .outarr = .{uh.mulp_0} },
     .{ .in_value = uh.cosh_0, .out_unit = .quad, .outarr = .{uh.quad_0} },
@@ -31,7 +30,6 @@ pub const cases = [_]TestCase{
     // === cosh(20°) → angle = 20° =========
     // =====================================
     // ALL 12 UNITS for cosh(20) - fractional coverage
-    .{ .in_value = uh.cosh_20, .out_unit = .none, .outarr = .{uh.rad_20} },
     .{ .in_value = uh.cosh_20, .out_unit = .turn, .outarr = .{uh.turn_20} },
     .{ .in_value = uh.cosh_20, .out_unit = .mulp, .outarr = .{uh.mulp_20} },
     .{ .in_value = uh.cosh_20, .out_unit = .quad, .outarr = .{uh.quad_20} },
@@ -48,7 +46,6 @@ pub const cases = [_]TestCase{
     // === cosh(30°) → angle = 30° =========
     // =====================================
     // ALL 12 UNITS for cosh(30)
-    .{ .in_value = uh.cosh_30, .out_unit = .none, .outarr = .{uh.rad_30} },
     .{ .in_value = uh.cosh_30, .out_unit = .turn, .outarr = .{uh.turn_30} },
     .{ .in_value = uh.cosh_30, .out_unit = .mulp, .outarr = .{uh.mulp_30} },
     .{ .in_value = uh.cosh_30, .out_unit = .quad, .outarr = .{uh.quad_30} },
@@ -65,7 +62,6 @@ pub const cases = [_]TestCase{
     // === cosh(45°) → angle = 45° =========
     // =====================================
     // ALL 12 UNITS for cosh(45)
-    .{ .in_value = uh.cosh_45, .out_unit = .none, .outarr = .{uh.rad_45} },
     .{ .in_value = uh.cosh_45, .out_unit = .turn, .outarr = .{uh.turn_45} },
     .{ .in_value = uh.cosh_45, .out_unit = .mulp, .outarr = .{uh.mulp_45} },
     .{ .in_value = uh.cosh_45, .out_unit = .quad, .outarr = .{uh.quad_45} },
@@ -82,7 +78,6 @@ pub const cases = [_]TestCase{
     // === cosh(60°) → angle = 60° =========
     // =====================================
     // ALL 12 UNITS for cosh(60)
-    .{ .in_value = uh.cosh_60, .out_unit = .none, .outarr = .{uh.rad_60} },
     .{ .in_value = uh.cosh_60, .out_unit = .turn, .outarr = .{uh.turn_60} },
     .{ .in_value = uh.cosh_60, .out_unit = .mulp, .outarr = .{uh.mulp_60} },
     .{ .in_value = uh.cosh_60, .out_unit = .quad, .outarr = .{uh.quad_60} },
@@ -99,7 +94,6 @@ pub const cases = [_]TestCase{
     // === cosh(90°) → angle = 90° =========
     // =====================================
     // ALL 12 UNITS for cosh(90)
-    .{ .in_value = uh.cosh_90, .out_unit = .none, .outarr = .{uh.rad_90} },
     .{ .in_value = uh.cosh_90, .out_unit = .turn, .outarr = .{uh.turn_90} },
     .{ .in_value = uh.cosh_90, .out_unit = .mulp, .outarr = .{uh.mulp_90} },
     .{ .in_value = uh.cosh_90, .out_unit = .quad, .outarr = .{uh.quad_90} },
@@ -119,7 +113,6 @@ pub const cases = [_]TestCase{
     // === So expected values are POSITIVE ===
     // =====================================
     // ALL 12 UNITS for cosh(-0) = cosh(0) → angle = 0° (positive)
-    .{ .in_value = uh.cosh_neg_0, .out_unit = .none, .outarr = .{uh.rad_0} },
     .{ .in_value = uh.cosh_neg_0, .out_unit = .turn, .outarr = .{uh.turn_0} },
     .{ .in_value = uh.cosh_neg_0, .out_unit = .mulp, .outarr = .{uh.mulp_0} },
     .{ .in_value = uh.cosh_neg_0, .out_unit = .quad, .outarr = .{uh.quad_0} },
@@ -133,7 +126,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.cosh_neg_0, .out_unit = .sarc, .outarr = .{uh.sarc_0} },
 
     // ALL 12 UNITS for cosh(-20) → angle = 20° (positive)
-    .{ .in_value = uh.cosh_neg_20, .out_unit = .none, .outarr = .{uh.rad_20} },
     .{ .in_value = uh.cosh_neg_20, .out_unit = .turn, .outarr = .{uh.turn_20} },
     .{ .in_value = uh.cosh_neg_20, .out_unit = .mulp, .outarr = .{uh.mulp_20} },
     .{ .in_value = uh.cosh_neg_20, .out_unit = .quad, .outarr = .{uh.quad_20} },
@@ -147,7 +139,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.cosh_neg_20, .out_unit = .sarc, .outarr = .{uh.sarc_20} },
 
     // ALL 12 UNITS for cosh(-30) → angle = 30° (positive)
-    .{ .in_value = uh.cosh_neg_30, .out_unit = .none, .outarr = .{uh.rad_30} },
     .{ .in_value = uh.cosh_neg_30, .out_unit = .turn, .outarr = .{uh.turn_30} },
     .{ .in_value = uh.cosh_neg_30, .out_unit = .mulp, .outarr = .{uh.mulp_30} },
     .{ .in_value = uh.cosh_neg_30, .out_unit = .quad, .outarr = .{uh.quad_30} },
@@ -161,7 +152,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.cosh_neg_30, .out_unit = .sarc, .outarr = .{uh.sarc_30} },
 
     // ALL 12 UNITS for cosh(-45) → angle = 45° (positive)
-    .{ .in_value = uh.cosh_neg_45, .out_unit = .none, .outarr = .{uh.rad_45} },
     .{ .in_value = uh.cosh_neg_45, .out_unit = .turn, .outarr = .{uh.turn_45} },
     .{ .in_value = uh.cosh_neg_45, .out_unit = .mulp, .outarr = .{uh.mulp_45} },
     .{ .in_value = uh.cosh_neg_45, .out_unit = .quad, .outarr = .{uh.quad_45} },
@@ -175,7 +165,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.cosh_neg_45, .out_unit = .sarc, .outarr = .{uh.sarc_45} },
 
     // ALL 12 UNITS for cosh(-60) → angle = 60° (positive)
-    .{ .in_value = uh.cosh_neg_60, .out_unit = .none, .outarr = .{uh.rad_60} },
     .{ .in_value = uh.cosh_neg_60, .out_unit = .turn, .outarr = .{uh.turn_60} },
     .{ .in_value = uh.cosh_neg_60, .out_unit = .mulp, .outarr = .{uh.mulp_60} },
     .{ .in_value = uh.cosh_neg_60, .out_unit = .quad, .outarr = .{uh.quad_60} },
@@ -189,7 +178,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.cosh_neg_60, .out_unit = .sarc, .outarr = .{uh.sarc_60} },
 
     // ALL 12 UNITS for cosh(-90) → angle = 90° (positive)
-    .{ .in_value = uh.cosh_neg_90, .out_unit = .none, .outarr = .{uh.rad_90} },
     .{ .in_value = uh.cosh_neg_90, .out_unit = .turn, .outarr = .{uh.turn_90} },
     .{ .in_value = uh.cosh_neg_90, .out_unit = .mulp, .outarr = .{uh.mulp_90} },
     .{ .in_value = uh.cosh_neg_90, .out_unit = .quad, .outarr = .{uh.quad_90} },

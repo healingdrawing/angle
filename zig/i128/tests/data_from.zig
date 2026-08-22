@@ -350,20 +350,6 @@ pub const cases = [_]TestCase{
         .outarr = .{90},
     },
 
-    // === NONE UNIT (alias for radian) ===
-    .{
-        .in_unit = unit.none,
-        .in_value = 2,
-        .out_unit = unit.rad,
-        .outarr = .{2},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = 2,
-        .out_unit = unit.none,
-        .outarr = .{2},
-    },
-
     // === SMALL VALUES (precision check) ===
     .{
         .in_unit = unit.deg,

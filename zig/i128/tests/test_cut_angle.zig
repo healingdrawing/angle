@@ -19,7 +19,6 @@ pub fn test_cut_angle(epsilon: f128) !report.MethodResult {
         _ = zig_angle.cut_angle(&cut_angle_obj);
 
         const zig_result = switch (tcase.out_unit) {
-            unit.none => try floatUtils.to_array(allocator, zig_angle.rad()),
             unit.turn => try floatUtils.to_array(allocator, zig_angle.turn()),
             unit.mulp => try floatUtils.to_array(allocator, zig_angle.mulp()),
             unit.quad => try floatUtils.to_array(allocator, zig_angle.quad()),

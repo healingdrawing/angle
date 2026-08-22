@@ -14,7 +14,6 @@ pub const cases = [_]TestCase{
     // === tan(0°) = 0 → angle = 0° ========
     // =====================================
     // ALL 12 UNITS for tan(0)
-    .{ .in_value = uh.tan_0, .out_unit = .none, .outarr = .{uh.rad_0} },
     .{ .in_value = uh.tan_0, .out_unit = .turn, .outarr = .{uh.turn_0} },
     .{ .in_value = uh.tan_0, .out_unit = .mulp, .outarr = .{uh.mulp_0} },
     .{ .in_value = uh.tan_0, .out_unit = .quad, .outarr = .{uh.quad_0} },
@@ -31,7 +30,6 @@ pub const cases = [_]TestCase{
     // === tan(30°) ≈ 0.577 → angle = 30° ==
     // =====================================
     // ALL 12 UNITS for tan(30)
-    .{ .in_value = uh.tan_30, .out_unit = .none, .outarr = .{uh.rad_30} },
     .{ .in_value = uh.tan_30, .out_unit = .turn, .outarr = .{uh.turn_30} },
     .{ .in_value = uh.tan_30, .out_unit = .mulp, .outarr = .{uh.mulp_30} },
     .{ .in_value = uh.tan_30, .out_unit = .quad, .outarr = .{uh.quad_30} },
@@ -48,7 +46,6 @@ pub const cases = [_]TestCase{
     // === tan(45°) = 1 → angle = 45° =======
     // =====================================
     // ALL 12 UNITS for tan(45)
-    .{ .in_value = uh.tan_45, .out_unit = .none, .outarr = .{uh.rad_45} },
     .{ .in_value = uh.tan_45, .out_unit = .turn, .outarr = .{uh.turn_45} },
     .{ .in_value = uh.tan_45, .out_unit = .mulp, .outarr = .{uh.mulp_45} },
     .{ .in_value = uh.tan_45, .out_unit = .quad, .outarr = .{uh.quad_45} },
@@ -65,7 +62,6 @@ pub const cases = [_]TestCase{
     // === tan(60°) ≈ 1.732 → angle = 60° ===
     // =====================================
     // ALL 12 UNITS for tan(60)
-    .{ .in_value = uh.tan_60, .out_unit = .none, .outarr = .{uh.rad_60} },
     .{ .in_value = uh.tan_60, .out_unit = .turn, .outarr = .{uh.turn_60} },
     .{ .in_value = uh.tan_60, .out_unit = .mulp, .outarr = .{uh.mulp_60} },
     .{ .in_value = uh.tan_60, .out_unit = .quad, .outarr = .{uh.quad_60} },
@@ -82,7 +78,6 @@ pub const cases = [_]TestCase{
     // === tan(90°) = ∞ → angle = 90° =======
     // =====================================
     // ALL 12 UNITS for tan(90) - PITFALL: tan(90)=inf, atan(inf)=π/2
-    .{ .in_value = uh.tan_90, .out_unit = .none, .outarr = .{uh.rad_90} },
     .{ .in_value = uh.tan_90, .out_unit = .turn, .outarr = .{uh.turn_90} },
     .{ .in_value = uh.tan_90, .out_unit = .mulp, .outarr = .{uh.mulp_90} },
     .{ .in_value = uh.tan_90, .out_unit = .quad, .outarr = .{uh.quad_90} },
@@ -99,7 +94,6 @@ pub const cases = [_]TestCase{
     // === tan(20°) → angle = 20° ==========
     // =====================================
     // ALL 12 UNITS for tan(20) - fractional coverage
-    .{ .in_value = uh.tan_20, .out_unit = .none, .outarr = .{uh.rad_20} },
     .{ .in_value = uh.tan_20, .out_unit = .turn, .outarr = .{uh.turn_20} },
     .{ .in_value = uh.tan_20, .out_unit = .mulp, .outarr = .{uh.mulp_20} },
     .{ .in_value = uh.tan_20, .out_unit = .quad, .outarr = .{uh.quad_20} },
@@ -116,7 +110,6 @@ pub const cases = [_]TestCase{
     // === NEGATIVE CASE DUPLICATION ========
     // =====================================
     // ALL 12 UNITS for tan(-0)
-    .{ .in_value = uh.tan_neg_0, .out_unit = .none, .outarr = .{uh.neg_rad_0} },
     .{ .in_value = uh.tan_neg_0, .out_unit = .turn, .outarr = .{uh.neg_turn_0} },
     .{ .in_value = uh.tan_neg_0, .out_unit = .mulp, .outarr = .{uh.neg_mulp_0} },
     .{ .in_value = uh.tan_neg_0, .out_unit = .quad, .outarr = .{uh.neg_quad_0} },
@@ -130,7 +123,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.tan_neg_0, .out_unit = .sarc, .outarr = .{uh.neg_sarc_0} },
 
     // ALL 12 UNITS for tan(-30)
-    .{ .in_value = uh.tan_neg_30, .out_unit = .none, .outarr = .{uh.neg_rad_30} },
     .{ .in_value = uh.tan_neg_30, .out_unit = .turn, .outarr = .{uh.neg_turn_30} },
     .{ .in_value = uh.tan_neg_30, .out_unit = .mulp, .outarr = .{uh.neg_mulp_30} },
     .{ .in_value = uh.tan_neg_30, .out_unit = .quad, .outarr = .{uh.neg_quad_30} },
@@ -144,7 +136,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.tan_neg_30, .out_unit = .sarc, .outarr = .{uh.neg_sarc_30} },
 
     // ALL 12 UNITS for tan(-45)
-    .{ .in_value = uh.tan_neg_45, .out_unit = .none, .outarr = .{uh.neg_rad_45} },
     .{ .in_value = uh.tan_neg_45, .out_unit = .turn, .outarr = .{uh.neg_turn_45} },
     .{ .in_value = uh.tan_neg_45, .out_unit = .mulp, .outarr = .{uh.neg_mulp_45} },
     .{ .in_value = uh.tan_neg_45, .out_unit = .quad, .outarr = .{uh.neg_quad_45} },
@@ -158,7 +149,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.tan_neg_45, .out_unit = .sarc, .outarr = .{uh.neg_sarc_45} },
 
     // ALL 12 UNITS for tan(-60)
-    .{ .in_value = uh.tan_neg_60, .out_unit = .none, .outarr = .{uh.neg_rad_60} },
     .{ .in_value = uh.tan_neg_60, .out_unit = .turn, .outarr = .{uh.neg_turn_60} },
     .{ .in_value = uh.tan_neg_60, .out_unit = .mulp, .outarr = .{uh.neg_mulp_60} },
     .{ .in_value = uh.tan_neg_60, .out_unit = .quad, .outarr = .{uh.neg_quad_60} },
@@ -172,7 +162,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.tan_neg_60, .out_unit = .sarc, .outarr = .{uh.neg_sarc_60} },
 
     // ALL 12 UNITS for tan(-90) - PITFALL: tan(-90)=-∞, atan(-∞)=-π/2
-    .{ .in_value = uh.tan_neg_90, .out_unit = .none, .outarr = .{uh.neg_rad_90} },
     .{ .in_value = uh.tan_neg_90, .out_unit = .turn, .outarr = .{uh.neg_turn_90} },
     .{ .in_value = uh.tan_neg_90, .out_unit = .mulp, .outarr = .{uh.neg_mulp_90} },
     .{ .in_value = uh.tan_neg_90, .out_unit = .quad, .outarr = .{uh.neg_quad_90} },
@@ -186,7 +175,6 @@ pub const cases = [_]TestCase{
     .{ .in_value = uh.tan_neg_90, .out_unit = .sarc, .outarr = .{uh.neg_sarc_90} },
 
     // ALL 12 UNITS for tan(-20) - fractional coverage
-    .{ .in_value = uh.tan_neg_20, .out_unit = .none, .outarr = .{uh.neg_rad_20} },
     .{ .in_value = uh.tan_neg_20, .out_unit = .turn, .outarr = .{uh.neg_turn_20} },
     .{ .in_value = uh.tan_neg_20, .out_unit = .mulp, .outarr = .{uh.neg_mulp_20} },
     .{ .in_value = uh.tan_neg_20, .out_unit = .quad, .outarr = .{uh.neg_quad_20} },

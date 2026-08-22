@@ -2,18 +2,17 @@ const std = @import("std");
 const math = std.math;
 
 pub const AngleUnit = enum(u8) {
-    none = 0,
-    turn = 1,
-    mulp = 2,
-    quad = 3,
-    sext = 4,
-    rad = 5,
-    hexa = 6,
-    bdeg = 7,
-    deg = 8,
-    grad = 9,
-    marc = 10,
-    sarc = 11,
+    turn = 0,
+    mulp = 1,
+    quad = 2,
+    sext = 3,
+    rad = 4,
+    hexa = 5,
+    bdeg = 6,
+    deg = 7,
+    grad = 8,
+    marc = 9,
+    sarc = 10,
 };
 
 fn compile_focus(comptime T: type) struct {
@@ -43,8 +42,7 @@ pub fn Angle(comptime T: type) type {
         const rad_to_sarc = @as(T, 648000) / pi;
 
         const UNIT_TO_SARC = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = @as(T, 0);
+            var factors: [11]T = undefined;
             factors[@intFromEnum(AngleUnit.turn)] = @as(T, 1296000);
             factors[@intFromEnum(AngleUnit.mulp)] = @as(T, 648000);
             factors[@intFromEnum(AngleUnit.quad)] = @as(T, 324000);
@@ -60,8 +58,7 @@ pub fn Angle(comptime T: type) type {
         };
 
         const SARC_TO_UNIT = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = @as(T, 0);
+            var factors: [11]T = undefined;
             factors[@intFromEnum(AngleUnit.turn)] = @as(T, 1) / @as(T, 1296000);
             factors[@intFromEnum(AngleUnit.mulp)] = @as(T, 1) / @as(T, 648000);
             factors[@intFromEnum(AngleUnit.quad)] = @as(T, 1) / @as(T, 324000);

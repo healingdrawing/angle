@@ -17,7 +17,6 @@ pub fn test_from_coth(epsilon: f128) !report.MethodResult {
         const zig_angle = angle.from_coth(tcase.in_value);
 
         const zig_result = switch (tcase.out_unit) {
-            unit.none => try floatUtils.to_array(allocator, zig_angle.rad()),
             unit.turn => try floatUtils.to_array(allocator, zig_angle.turn()),
             unit.mulp => try floatUtils.to_array(allocator, zig_angle.mulp()),
             unit.quad => try floatUtils.to_array(allocator, zig_angle.quad()),
