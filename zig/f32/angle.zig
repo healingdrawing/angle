@@ -18,6 +18,7 @@ pub const AngleUnit = enum(u8) {
 pub fn Angle(comptime T: type) type {
     return struct {
         const Self = @This();
+        pub const epsilon = @as(T, 1e-6);
         pub const pi = @as(T, math.pi);
         pub const pix2 = @as(T, pi * 2);
         pub const inf = math.inf(T); // +infinity for type T

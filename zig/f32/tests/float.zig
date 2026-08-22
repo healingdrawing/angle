@@ -1,11 +1,10 @@
 const std = @import("std");
 
-/// Parse space-separated f32 values into an array
-/// Single values are wrapped in array of length 1
-pub inline fn parse_float_result(allocator: std.mem.Allocator, output: []const u8) ![]f32 {
+/// Parse space-separated values into an array of type T
+pub inline fn parse_float_result(comptime T: type, allocator: std.mem.Allocator, output: []const u8) ![]T {
     const trimmed = std.mem.trim(u8, output, " \n\r\t");
 
-    var values = try std.ArrayList(f32).initCapacity(allocator, 256);
+    var values = try std.ArrayList(T).initCapacity(allocator, 256);
     defer values.deinit(allocator);
 
     var parts = std.mem.splitSequence(u8, trimmed, " ");
@@ -13,45 +12,41 @@ pub inline fn parse_float_result(allocator: std.mem.Allocator, output: []const u
     while (parts.next()) |part| {
         const clean = std.mem.trim(u8, part, " \t");
         if (clean.len == 0) continue;
-        const value = try std.fmt.parseFloat(f32, clean);
+        const value = try std.fmt.parseFloat(T, clean);
         try values.append(allocator, value);
     }
     return try values.toOwnedSlice(allocator);
 }
 
-/// Compare two f32 values with epsilon tolerance
-/// Treats NaN == NaN as true
-/// Treats +Inf == +Inf and -Inf == -Inf as true
-pub inline fn floats_equal(a: f32, b: f32, epsilon: f32) bool {
+/// Compare two values of type T with epsilon tolerance
+pub inline fn floats_equal(comptime T: type, a: T, b: T, epsilon: T) bool {
     if (std.math.isNan(a) and std.math.isNan(b)) {
         return true;
     }
     if (std.math.isNan(a) or std.math.isNan(b)) {
         return false;
     }
-    // Infinity must have the same sign to be equal
     if (std.math.isInf(a) or std.math.isInf(b)) {
-        return a == b; // +Inf == +Inf, -Inf == -Inf, but +Inf != -Inf
+        return a == b;
     }
-    // Adaptive tolerance: f32 precision degrades with magnitude
-    // Relative error scales with value size, absolute error for small values
-    const magnitude = @max(@abs(a), @abs(b));
-    const adaptive_epsilon = epsilon * @max(1, magnitude);
 
-    std.debug.print("adaptive epsilon: {d}\n@abs(a-b): {d}\n", .{ adaptive_epsilon, @abs(a - b) }); //todo remove later
+    const magnitude = @max(@abs(a), @abs(b));
+    const adaptive_epsilon = epsilon * @max(@as(T, 1), magnitude);
+
+    std.debug.print("adaptive epsilon: {d}\n@abs(a-b): {d}\n", .{ adaptive_epsilon, @abs(a - b) }); // todo remove later
 
     return @abs(a - b) <= adaptive_epsilon;
 }
 
-/// Compare two f32 arrays with epsilon tolerance
-pub inline fn arrays_equal(a: []const f32, b: []const f32, epsilon: f32) !bool {
+/// Compare two arrays of type T with epsilon tolerance
+pub inline fn arrays_equal(comptime T: type, a: []const T, b: []const T, epsilon: T) !bool {
     if (a.len != b.len) {
         std.debug.print("\nlength mismatch: {d} vs {d}\na={any}\nb={any}\n", .{ a.len, b.len, a, b });
         return false;
     }
 
     for (0..a.len) |i| {
-        if (!floats_equal(a[i], b[i], epsilon)) {
+        if (!floats_equal(T, a[i], b[i], epsilon)) {
             std.debug.print("  [{d}] mismatch: {any} vs {any}\n", .{ i, a[i], b[i] });
             return false;
         }
@@ -59,20 +54,19 @@ pub inline fn arrays_equal(a: []const f32, b: []const f32, epsilon: f32) !bool {
     return true;
 }
 
-/// Convert any numeric type or vector to f32 array
-/// Scalars are packed as [1]f32, vectors/arrays are converted to []f32
-pub inline fn to_array(allocator: std.mem.Allocator, value: anytype) ![]f32 {
-    const T = @TypeOf(value);
-    const type_info = @typeInfo(T);
+/// Convert any numeric type/vector to []T
+pub inline fn to_array(comptime T: type, allocator: std.mem.Allocator, value: anytype) ![]T {
+    const SrcT = @TypeOf(value);
+    const type_info = @typeInfo(SrcT);
 
     return switch (type_info) {
         .float => blk: {
-            const arr = try allocator.alloc(f32, 1);
+            const arr = try allocator.alloc(T, 1);
             arr[0] = @floatCast(value);
             break :blk arr;
         },
         .vector => |vec_info| blk: {
-            const arr = try allocator.alloc(f32, vec_info.len);
+            const arr = try allocator.alloc(T, vec_info.len);
             inline for (0..vec_info.len) |i| {
                 arr[i] = @floatCast(value[i]);
             }
@@ -80,11 +74,10 @@ pub inline fn to_array(allocator: std.mem.Allocator, value: anytype) ![]f32 {
         },
         .pointer => |ptr_info| blk: {
             if (ptr_info.size == .slice or ptr_info.size == .many) {
-                // Already a slice/array—just cast if needed
-                if (ptr_info.child == f32) {
-                    break :blk value;
+                if (ptr_info.child == T) {
+                    break :blk @constCast(value);
                 } else {
-                    const arr = try allocator.alloc(f32, value.len);
+                    const arr = try allocator.alloc(T, value.len);
                     for (0..value.len) |i| {
                         arr[i] = @floatCast(value[i]);
                     }
@@ -95,7 +88,7 @@ pub inline fn to_array(allocator: std.mem.Allocator, value: anytype) ![]f32 {
             }
         },
         .array => |arr_info| blk: {
-            const arr = try allocator.alloc(f32, arr_info.len);
+            const arr = try allocator.alloc(T, arr_info.len);
             inline for (0..arr_info.len) |i| {
                 arr[i] = @floatCast(value[i]);
             }
@@ -105,50 +98,47 @@ pub inline fn to_array(allocator: std.mem.Allocator, value: anytype) ![]f32 {
     };
 }
 
-pub fn vectors_to_string(allocator: std.mem.Allocator, inputs: anytype) ![]u8 {
+/// Convert any numeric type or vector to string (space-separated)
+pub fn vectors_to_string(comptime T: type, allocator: std.mem.Allocator, inputs: anytype) ![]u8 {
     var result = try std.ArrayList(u8).initCapacity(allocator, 256);
     defer result.deinit(allocator);
 
     inline for (inputs, 0..) |item, idx| {
         if (idx > 0) try result.appendSlice(allocator, " ");
 
-        const T = @TypeOf(item);
-        const type_info = @typeInfo(T);
+        const T_item = @TypeOf(item);
+        const type_info = @typeInfo(T_item);
 
         if (type_info == .vector) {
             const len = type_info.vector.len;
             inline for (0..len) |i| {
                 if (i > 0) try result.appendSlice(allocator, " ");
-                const val = item[i];
-                try append_float_string(allocator, &result, val);
+                try append_float_string(allocator, &result, @as(T, item[i]));
             }
         } else if (type_info == .array) {
             const len = type_info.array.len;
             inline for (0..len) |i| {
                 if (i > 0) try result.appendSlice(allocator, " ");
-                const val = item[i];
-                try append_float_string(allocator, &result, val);
+                try append_float_string(allocator, &result, @as(T, item[i]));
             }
-        } else if (type_info == .float or type_info == .int) {
-            const val = item;
-            try append_float_string(allocator, &result, val);
+        } else if (type_info == .float) {
+            try append_float_string(allocator, &result, @as(T, item));
+        } else if (type_info == .int) {
+            // Use @as(T, item) - Zig handles int→float coercion
+            try append_float_string(allocator, &result, @as(T, item));
         }
     }
 
     return result.toOwnedSlice(allocator);
 }
 
-fn append_float_string(allocator: std.mem.Allocator, result: *std.ArrayList(u8), val: f32) !void {
+fn append_float_string(allocator: std.mem.Allocator, result: *std.ArrayList(u8), val: anytype) !void {
     if (std.math.isNan(val)) {
         try result.appendSlice(allocator, "NaN");
     } else if (std.math.isInf(val)) {
-        if (val > 0) {
-            try result.appendSlice(allocator, "Infinity");
-        } else {
-            try result.appendSlice(allocator, "-Infinity");
-        }
+        if (val > 0) try result.appendSlice(allocator, "Infinity") else try result.appendSlice(allocator, "-Infinity");
     } else {
-        var buf: [128]u8 = undefined; //warning input length affects buf size 64 vs 32
+        var buf: [128]u8 = undefined;
         const str = try std.fmt.bufPrint(&buf, "{d}", .{val});
         try result.appendSlice(allocator, str);
     }

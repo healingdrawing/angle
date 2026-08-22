@@ -2,38 +2,40 @@ const std = @import("std");
 const dp = @import("../utils/debug.zig");
 const data_normalize = @import("data_normalize.zig");
 const floatUtils = @import("float.zig");
-const angle = @import("../angle.zig").AngleF32;
+const Angle = @import("../angle.zig").Angle;
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 
-pub fn test_normalize(epsilon: f32) !report.MethodResult {
+pub fn test_normalize(comptime T: type, epsilon: T) !report.MethodResult {
     const allocator = std.heap.page_allocator;
     var failed: usize = 0;
 
+    const angle = Angle(T);
+
     dp.devlog(.{"Running Angle.normalize tests..."});
 
-    for (data_normalize.cases) |tcase| {
+    for (data_normalize.cases(T)) |tcase| {
         // Call Zig method
         var zig_angle = angle.from(tcase.in_unit, tcase.in_value);
         _ = zig_angle.normalize();
 
         const zig_result = switch (tcase.out_unit) {
-            unit.turn => try floatUtils.to_array(allocator, zig_angle.turn()),
-            unit.mulp => try floatUtils.to_array(allocator, zig_angle.mulp()),
-            unit.quad => try floatUtils.to_array(allocator, zig_angle.quad()),
-            unit.sext => try floatUtils.to_array(allocator, zig_angle.sext()),
-            unit.rad => try floatUtils.to_array(allocator, zig_angle.rad()),
-            unit.hexa => try floatUtils.to_array(allocator, zig_angle.hexa()),
-            unit.bdeg => try floatUtils.to_array(allocator, zig_angle.bdeg()),
-            unit.deg => try floatUtils.to_array(allocator, zig_angle.deg()),
-            unit.grad => try floatUtils.to_array(allocator, zig_angle.grad()),
-            unit.marc => try floatUtils.to_array(allocator, zig_angle.marc()),
-            unit.sarc => try floatUtils.to_array(allocator, zig_angle.sarc()),
+            unit.turn => try floatUtils.to_array(T, allocator, zig_angle.turn()),
+            unit.mulp => try floatUtils.to_array(T, allocator, zig_angle.mulp()),
+            unit.quad => try floatUtils.to_array(T, allocator, zig_angle.quad()),
+            unit.sext => try floatUtils.to_array(T, allocator, zig_angle.sext()),
+            unit.rad => try floatUtils.to_array(T, allocator, zig_angle.rad()),
+            unit.hexa => try floatUtils.to_array(T, allocator, zig_angle.hexa()),
+            unit.bdeg => try floatUtils.to_array(T, allocator, zig_angle.bdeg()),
+            unit.deg => try floatUtils.to_array(T, allocator, zig_angle.deg()),
+            unit.grad => try floatUtils.to_array(T, allocator, zig_angle.grad()),
+            unit.marc => try floatUtils.to_array(T, allocator, zig_angle.marc()),
+            unit.sarc => try floatUtils.to_array(T, allocator, zig_angle.sarc()),
         };
         defer allocator.free(zig_result);
 
         // Call TS bridge
-        const data_str = try floatUtils.vectors_to_string(allocator, .{ @intFromEnum(tcase.in_unit), tcase.in_value, @intFromEnum(tcase.out_unit) });
+        const data_str = try floatUtils.vectors_to_string(T, allocator, .{ @intFromEnum(tcase.in_unit), tcase.in_value, @intFromEnum(tcase.out_unit) });
         defer allocator.free(data_str);
         // std.debug.print("data_str {s}", .{data_str});
 
@@ -53,15 +55,15 @@ pub fn test_normalize(epsilon: f32) !report.MethodResult {
         defer allocator.free(result.stderr);
 
         // Parse TS result
-        const ts_result = try floatUtils.parse_float_result(allocator, result.stdout);
+        const ts_result = try floatUtils.parse_float_result(T, allocator, result.stdout);
         defer allocator.free(ts_result);
 
         // expected from data file (zero-cost)
-        const expected: []const f32 = &tcase.outarr;
+        const expected: []const T = &tcase.outarr;
 
-        const ok_zig_exp = try floatUtils.arrays_equal(zig_result, expected, epsilon);
-        const ok_ts_exp = try floatUtils.arrays_equal(ts_result, expected, epsilon);
-        const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
+        const ok_zig_exp = try floatUtils.arrays_equal(T, zig_result, expected, epsilon);
+        const ok_ts_exp = try floatUtils.arrays_equal(T, ts_result, expected, epsilon);
+        const ok_zig_ts = try floatUtils.arrays_equal(T, zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
             std.debug.print("✓ Angle.from({any}, {any}).normalize(){any}() = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.out_unit, zig_result });
@@ -88,7 +90,7 @@ pub fn test_normalize(epsilon: f32) !report.MethodResult {
     }
     return .{
         .name = "Angle.normalize",
-        .total = data_normalize.cases.len,
+        .total = data_normalize.cases(T).len,
         .failed = failed,
     };
 }

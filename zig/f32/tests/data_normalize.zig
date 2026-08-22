@@ -1,353 +1,356 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
-const uh = @import("helper.zig").unit_helper(f32);
 
-pub const TestCase = struct {
-    in_unit: unit,
-    in_value: f32,
-    out_unit: unit,
-    outarr: [1]f32,
-};
+pub fn TestCase(comptime T: type) type {
+    return struct {
+        in_unit: unit,
+        in_value: T,
+        out_unit: unit,
+        outarr: [1]T,
+    };
+}
 
-const pi = uh.pi;
-const pix2 = pi * 2;
+pub fn cases(comptime T: type) []const TestCase(T) {
+    const uh = @import("helper.zig").unit_helper(T);
+    const pi = uh.pi;
+    const pix2 = pi * 2;
 
-pub const cases = [_]TestCase{
-    // === ZERO VALUES ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = 0,
-        .out_unit = unit.rad,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 0,
-        .out_unit = unit.deg,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 0,
-        .out_unit = unit.turn,
-        .outarr = .{0},
-    },
+    return &[_]TestCase(T){
+        // === ZERO VALUES ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = @as(T, 0),
+            .out_unit = unit.rad,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 0),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 0),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0)},
+        },
 
-    // === SMALL POSITIVE VALUES (within [0, 2π)) ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = pi / 4.0,
-        .out_unit = unit.rad,
-        .outarr = .{pi / 4.0},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = pi,
-        .out_unit = unit.rad,
-        .outarr = .{pi},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = pi * 1.5,
-        .out_unit = unit.rad,
-        .outarr = .{pi * 1.5},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 45,
-        .out_unit = unit.deg,
-        .outarr = .{45},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 180,
-        .out_unit = unit.deg,
-        .outarr = .{180},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 359,
-        .out_unit = unit.deg,
-        .outarr = .{359},
-    },
+        // === SMALL POSITIVE VALUES ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = pi / @as(T, 4),
+            .out_unit = unit.rad,
+            .outarr = .{pi / @as(T, 4)},
+        },
+        .{
+            .in_unit = unit.rad,
+            .in_value = pi,
+            .out_unit = unit.rad,
+            .outarr = .{pi},
+        },
+        .{
+            .in_unit = unit.rad,
+            .in_value = pi * @as(T, 1.5),
+            .out_unit = unit.rad,
+            .outarr = .{pi * @as(T, 1.5)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 45),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 45)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 180),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 180)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 359),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 359)},
+        },
 
-    // === EXACT 2π BOUNDARY ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = pix2,
-        .out_unit = unit.rad,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 360,
-        .out_unit = unit.deg,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 1.0,
-        .out_unit = unit.turn,
-        .outarr = .{0},
-    },
+        // === 2π BOUNDARY ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = pix2,
+            .out_unit = unit.rad,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 360),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 1),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0)},
+        },
 
-    // === ABOVE 2π (wrap around once) ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = pix2 + pi / 4.0,
-        .out_unit = unit.rad,
-        .outarr = .{pi / 4.0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 405,
-        .out_unit = unit.deg,
-        .outarr = .{45},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 450,
-        .out_unit = unit.deg,
-        .outarr = .{90},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 720 + 60,
-        .out_unit = unit.deg,
-        .outarr = .{60},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 1.25,
-        .out_unit = unit.turn,
-        .outarr = .{0.25},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 2.75,
-        .out_unit = unit.turn,
-        .outarr = .{0.75},
-    },
+        // === ABOVE 2π ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = pix2 + pi / @as(T, 4),
+            .out_unit = unit.rad,
+            .outarr = .{pi / @as(T, 4)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 405),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 45)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 450),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 90)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 780), // 720 + 60
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 60)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 1.25),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.25)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 2.75),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.75)},
+        },
 
-    // === ABOVE MULTIPLE 2π ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = pix2 * 3 + pi / 3.0,
-        .out_unit = unit.rad,
-        .outarr = .{pi / 3.0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 1080 + 120,
-        .out_unit = unit.deg,
-        .outarr = .{120},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 5.5,
-        .out_unit = unit.turn,
-        .outarr = .{0.5},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 10.0,
-        .out_unit = unit.turn,
-        .outarr = .{0},
-    },
+        // === ABOVE MULTIPLE 2π ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = pix2 * @as(T, 3) + pi / @as(T, 3),
+            .out_unit = unit.rad,
+            .outarr = .{pi / @as(T, 3)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 1200), // 1080 + 120
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 120)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 5.5),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.5)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 10),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0)},
+        },
 
-    // === NEGATIVE VALUES (wrap to positive) ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = -pi / 4.0,
-        .out_unit = unit.rad,
-        .outarr = .{pix2 - pi / 4.0},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = -pi,
-        .out_unit = unit.rad,
-        .outarr = .{pi},
-    },
-    .{
-        .in_unit = unit.rad,
-        .in_value = -pi * 1.5,
-        .out_unit = unit.rad,
-        .outarr = .{pi / 2.0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -45,
-        .out_unit = unit.deg,
-        .outarr = .{315},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -90,
-        .out_unit = unit.deg,
-        .outarr = .{270},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -180,
-        .out_unit = unit.deg,
-        .outarr = .{180},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = -0.25,
-        .out_unit = unit.turn,
-        .outarr = .{0.75},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = -0.5,
-        .out_unit = unit.turn,
-        .outarr = .{0.5},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = -1.0,
-        .out_unit = unit.turn,
-        .outarr = .{0},
-    },
+        // === NEGATIVE VALUES ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = -pi / @as(T, 4),
+            .out_unit = unit.rad,
+            .outarr = .{pix2 - pi / @as(T, 4)},
+        },
+        .{
+            .in_unit = unit.rad,
+            .in_value = -pi,
+            .out_unit = unit.rad,
+            .outarr = .{pi},
+        },
+        .{
+            .in_unit = unit.rad,
+            .in_value = -pi * @as(T, 1.5),
+            .out_unit = unit.rad,
+            .outarr = .{pi / @as(T, 2)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -45),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 315)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -90),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 270)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -180),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 180)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, -0.25),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.75)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, -0.5),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.5)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, -1),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0)},
+        },
 
-    // === LARGE NEGATIVE VALUES ===
-    .{
-        .in_unit = unit.rad,
-        .in_value = -(pix2 + pi / 4.0),
-        .out_unit = unit.rad,
-        .outarr = .{pix2 - pi / 4.0},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -360 - 45,
-        .out_unit = unit.deg,
-        .outarr = .{315},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -720 - 90,
-        .out_unit = unit.deg,
-        .outarr = .{270},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = -1.5,
-        .out_unit = unit.turn,
-        .outarr = .{0.5},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = -2.25,
-        .out_unit = unit.turn,
-        .outarr = .{0.75},
-    },
+        // === LARGE NEGATIVE ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = -(pix2 + pi / @as(T, 4)),
+            .out_unit = unit.rad,
+            .outarr = .{pix2 - pi / @as(T, 4)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -405), // -360 - 45
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 315)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -810), // -720 - 90
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 270)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, -1.5),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.5)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, -2.25),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.75)},
+        },
 
-    // === EDGE CASES (very close to boundary) ===
-    .{
-        .in_unit = unit.deg,
-        .in_value = 359.9999,
-        .out_unit = unit.deg,
-        .outarr = .{359.9999},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 360.0001,
-        .out_unit = unit.deg,
-        .outarr = .{0.0001},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -0.0001,
-        .out_unit = unit.deg,
-        .outarr = .{359.9999},
-    },
+        // === EDGE CASES ===
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 359.9999),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 359.9999)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 360.0001),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 0.0001)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -0.0001),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 359.9999)},
+        },
 
-    // === OTHER UNITS TESTS ===
-    // Grad (400 grad = 360 deg = 2π)
-    .{
-        .in_unit = unit.grad,
-        .in_value = 400,
-        .out_unit = unit.grad,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.grad,
-        .in_value = 500,
-        .out_unit = unit.grad,
-        .outarr = .{100},
-    },
-    .{
-        .in_unit = unit.grad,
-        .in_value = -100,
-        .out_unit = unit.grad,
-        .outarr = .{300},
-    },
+        // === GRAD ===
+        .{
+            .in_unit = unit.grad,
+            .in_value = @as(T, 400),
+            .out_unit = unit.grad,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.grad,
+            .in_value = @as(T, 500),
+            .out_unit = unit.grad,
+            .outarr = .{@as(T, 100)},
+        },
+        .{
+            .in_unit = unit.grad,
+            .in_value = @as(T, -100),
+            .out_unit = unit.grad,
+            .outarr = .{@as(T, 300)},
+        },
 
-    // Hexacontade (60 hexa = 360 deg)
-    .{
-        .in_unit = unit.hexa,
-        .in_value = 60,
-        .out_unit = unit.hexa,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.hexa,
-        .in_value = 75,
-        .out_unit = unit.hexa,
-        .outarr = .{15},
-    },
-    .{
-        .in_unit = unit.hexa,
-        .in_value = -15,
-        .out_unit = unit.hexa,
-        .outarr = .{45},
-    },
+        // === HEXACONDADE ===
+        .{
+            .in_unit = unit.hexa,
+            .in_value = @as(T, 60),
+            .out_unit = unit.hexa,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.hexa,
+            .in_value = @as(T, 75),
+            .out_unit = unit.hexa,
+            .outarr = .{@as(T, 15)},
+        },
+        .{
+            .in_unit = unit.hexa,
+            .in_value = @as(T, -15),
+            .out_unit = unit.hexa,
+            .outarr = .{@as(T, 45)},
+        },
 
-    // Binary Degree (256 bdeg = 360 deg)
-    .{
-        .in_unit = unit.bdeg,
-        .in_value = 256,
-        .out_unit = unit.bdeg,
-        .outarr = .{0},
-    },
-    .{
-        .in_unit = unit.bdeg,
-        .in_value = 320,
-        .out_unit = unit.bdeg,
-        .outarr = .{64},
-    },
-    .{
-        .in_unit = unit.bdeg,
-        .in_value = -64,
-        .out_unit = unit.bdeg,
-        .outarr = .{192},
-    },
+        // === BINARY DEGREE ===
+        .{
+            .in_unit = unit.bdeg,
+            .in_value = @as(T, 256),
+            .out_unit = unit.bdeg,
+            .outarr = .{@as(T, 0)},
+        },
+        .{
+            .in_unit = unit.bdeg,
+            .in_value = @as(T, 320),
+            .out_unit = unit.bdeg,
+            .outarr = .{@as(T, 64)},
+        },
+        .{
+            .in_unit = unit.bdeg,
+            .in_value = @as(T, -64),
+            .out_unit = unit.bdeg,
+            .outarr = .{@as(T, 192)},
+        },
 
-    // Cross-unit normalization (input in one unit, output in another)
-    .{
-        .in_unit = unit.rad,
-        .in_value = pix2 * 2 + pi / 2.0,
-        .out_unit = unit.deg,
-        .outarr = .{90},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = 720 + 60,
-        .out_unit = unit.rad,
-        .outarr = .{pi / 3.0},
-    },
-    .{
-        .in_unit = unit.turn,
-        .in_value = 3.5,
-        .out_unit = unit.deg,
-        .outarr = .{180},
-    },
-    .{
-        .in_unit = unit.deg,
-        .in_value = -180,
-        .out_unit = unit.turn,
-        .outarr = .{0.5},
-    },
-};
+        // === CROSS-UNIT ===
+        .{
+            .in_unit = unit.rad,
+            .in_value = pix2 * @as(T, 2) + pi / @as(T, 2),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 90)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, 780), // 720 + 60
+            .out_unit = unit.rad,
+            .outarr = .{pi / @as(T, 3)},
+        },
+        .{
+            .in_unit = unit.turn,
+            .in_value = @as(T, 3.5),
+            .out_unit = unit.deg,
+            .outarr = .{@as(T, 180)},
+        },
+        .{
+            .in_unit = unit.deg,
+            .in_value = @as(T, -180),
+            .out_unit = unit.turn,
+            .outarr = .{@as(T, 0.5)},
+        },
+    };
+}
