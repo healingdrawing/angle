@@ -533,7 +533,7 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = @as(i128, @trunc(asinh(1 / v) * rad_to_sarc));
+            self.value = @trunc(asinh(1 / v) * rad_to_sarc);
             return self;
         }
 
