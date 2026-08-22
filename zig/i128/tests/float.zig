@@ -146,7 +146,7 @@ fn append_float_string(allocator: std.mem.Allocator, result: *std.ArrayList(u8),
             try result.appendSlice(allocator, "-Infinity");
         }
     } else {
-        var buf: [64]u8 = undefined; //warning input length affects buf size 64 vs 32
+        var buf: [128]u8 = undefined; //warning input length affects buf size 64 vs 32
         const str = try std.fmt.bufPrint(&buf, "{d}", .{val});
         try result.appendSlice(allocator, str);
     }

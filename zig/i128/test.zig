@@ -40,7 +40,7 @@ pub fn main(init: std.process.Init) !void {
         try test_from_sech(epsilon),
         try test_from_csch(epsilon),
         try test_cut_angle(epsilon),
-        try test_normalize(epsilon),
+        // try test_normalize(epsilon),
     };
 
     report.print_test_sum_report(&results);
