@@ -2,7 +2,7 @@ const std = @import("std");
 const dp = @import("../utils/debug.zig");
 const data_from = @import("data_from_cos.zig");
 const floatUtils = @import("float.zig");
-const angle = @import("../angle.zig").AngleF32;
+const angle = @import("../angle.zig").AngleF128;
 const unit = @import("../angle.zig").AngleUnit;
 const report = @import("report.zig");
 
@@ -17,7 +17,6 @@ pub fn test_from_cos(epsilon: f128) !report.MethodResult {
         const zig_angle = angle.from_cos(tcase.in_value);
 
         const zig_result = switch (tcase.out_unit) {
-            unit.none => try floatUtils.to_array(allocator, zig_angle.rad()),
             unit.turn => try floatUtils.to_array(allocator, zig_angle.turn()),
             unit.mulp => try floatUtils.to_array(allocator, zig_angle.mulp()),
             unit.quad => try floatUtils.to_array(allocator, zig_angle.quad()),

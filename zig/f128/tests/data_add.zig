@@ -1,7 +1,7 @@
 const std = @import("std");
 const math = std.math;
 const unit = @import("../angle.zig").AngleUnit;
-const uh = @import("helper.zig").unit_helper;
+const uh = @import("helper.zig").unit_helper(f128);
 
 pub const TestCase = struct {
     in_unit: unit,

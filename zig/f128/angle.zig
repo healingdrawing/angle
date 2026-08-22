@@ -2,69 +2,137 @@ const std = @import("std");
 const math = std.math;
 
 pub const AngleUnit = enum(u8) {
-    none = 0,
-    turn = 1,
-    mulp = 2,
-    quad = 3,
-    sext = 4,
-    rad = 5,
-    hexa = 6,
-    bdeg = 7,
-    deg = 8,
-    grad = 9,
-    marc = 10,
-    sarc = 11,
+    turn = 0,
+    mulp = 1,
+    quad = 2,
+    sext = 3,
+    rad = 4,
+    hexa = 5,
+    bdeg = 6,
+    deg = 7,
+    grad = 8,
+    marc = 9,
+    sarc = 10,
 };
 
+fn compile_focus(comptime T: type) struct {
+    value_type: type,
+    epsilon: T,
+} {
+    return switch (T) {
+        f32 => .{ .value_type = f32, .epsilon = @as(T, 1e-7) },
+        f64 => .{ .value_type = f64, .epsilon = @as(T, 1e-15) },
+        f128 => .{ .value_type = f128, .epsilon = @as(T, 1e-33) },
+        else => @compileError("Angle only supports f32, f64, or f128"),
+    };
+}
+
 pub fn Angle(comptime T: type) type {
+    const focus = compile_focus(T);
+    const value_type = focus.value_type;
+    const epsilon = focus.epsilon;
+
     return struct {
         const Self = @This();
         pub const pi = @as(T, math.pi);
-        pub const pix2 = @as(T, pi * 2);
+        const sarc_to_rad = pi / @as(T, 648000);
+        const rad_to_sarc = @as(T, 648000) / pi;
+        const sarc_turn = UNIT_TO_SARC[@intFromEnum(AngleUnit.turn)];
         pub const inf = math.inf(T); // +infinity for type T
         pub const neg_inf = -math.inf(T); // -infinity for type T
 
-        const CONVERSION_TO_RAD = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = 1.0;
-            factors[@intFromEnum(AngleUnit.turn)] = pix2;
-            factors[@intFromEnum(AngleUnit.mulp)] = pi;
-            factors[@intFromEnum(AngleUnit.quad)] = pi / 2.0;
-            factors[@intFromEnum(AngleUnit.sext)] = pi / 3.0;
-            factors[@intFromEnum(AngleUnit.rad)] = 1.0;
-            factors[@intFromEnum(AngleUnit.hexa)] = pi / 30.0;
-            factors[@intFromEnum(AngleUnit.bdeg)] = pi / 128.0;
-            factors[@intFromEnum(AngleUnit.deg)] = pi / 180.0;
-            factors[@intFromEnum(AngleUnit.grad)] = pi / 200.0;
-            factors[@intFromEnum(AngleUnit.marc)] = pi / 10800.0;
-            factors[@intFromEnum(AngleUnit.sarc)] = pi / 648000.0;
+        const UNIT_TO_SARC = blk: {
+            var factors: [11]T = undefined;
+            factors[@intFromEnum(AngleUnit.turn)] = @as(T, 1296000);
+            factors[@intFromEnum(AngleUnit.mulp)] = @as(T, 648000);
+            factors[@intFromEnum(AngleUnit.quad)] = @as(T, 324000);
+            factors[@intFromEnum(AngleUnit.sext)] = @as(T, 216000);
+            factors[@intFromEnum(AngleUnit.rad)] = rad_to_sarc;
+            factors[@intFromEnum(AngleUnit.hexa)] = @as(T, 21600);
+            factors[@intFromEnum(AngleUnit.bdeg)] = @as(T, 5062.5);
+            factors[@intFromEnum(AngleUnit.deg)] = @as(T, 3600);
+            factors[@intFromEnum(AngleUnit.grad)] = @as(T, 3240);
+            factors[@intFromEnum(AngleUnit.marc)] = @as(T, 60);
+            factors[@intFromEnum(AngleUnit.sarc)] = @as(T, 1);
             break :blk factors;
         };
 
-        const CONVERSION_FROM_RAD = blk: {
-            var factors: [12]T = undefined;
-            factors[@intFromEnum(AngleUnit.none)] = 1.0;
-            factors[@intFromEnum(AngleUnit.turn)] = 1.0 / (2 * pi);
-            factors[@intFromEnum(AngleUnit.mulp)] = 1.0 / pi;
-            factors[@intFromEnum(AngleUnit.quad)] = 2.0 / pi;
-            factors[@intFromEnum(AngleUnit.sext)] = 3.0 / pi;
-            factors[@intFromEnum(AngleUnit.rad)] = 1.0;
-            factors[@intFromEnum(AngleUnit.hexa)] = 30.0 / pi;
-            factors[@intFromEnum(AngleUnit.bdeg)] = 128.0 / pi;
-            factors[@intFromEnum(AngleUnit.deg)] = 180.0 / pi;
-            factors[@intFromEnum(AngleUnit.grad)] = 200.0 / pi;
-            factors[@intFromEnum(AngleUnit.marc)] = 10800.0 / pi;
-            factors[@intFromEnum(AngleUnit.sarc)] = 648000.0 / pi;
+        const SARC_TO_UNIT = blk: {
+            var factors: [11]T = undefined;
+            factors[@intFromEnum(AngleUnit.turn)] = @as(T, 1) / @as(T, 1296000);
+            factors[@intFromEnum(AngleUnit.mulp)] = @as(T, 1) / @as(T, 648000);
+            factors[@intFromEnum(AngleUnit.quad)] = @as(T, 1) / @as(T, 324000);
+            factors[@intFromEnum(AngleUnit.sext)] = @as(T, 1) / @as(T, 216000);
+            factors[@intFromEnum(AngleUnit.rad)] = sarc_to_rad;
+            factors[@intFromEnum(AngleUnit.hexa)] = @as(T, 1) / @as(T, 21600);
+            factors[@intFromEnum(AngleUnit.bdeg)] = @as(T, 1) / @as(T, 5062.5);
+            factors[@intFromEnum(AngleUnit.deg)] = @as(T, 1) / @as(T, 3600);
+            factors[@intFromEnum(AngleUnit.grad)] = @as(T, 1) / @as(T, 3240);
+            factors[@intFromEnum(AngleUnit.marc)] = @as(T, 1) / @as(T, 60);
+            factors[@intFromEnum(AngleUnit.sarc)] = @as(T, 1);
             break :blk factors;
         };
 
-        value: T,
+        value: value_type,
 
         /// Parameterless init - creates zero angle (matching TS constructor())
         pub fn init() Self {
             return Self{
                 .value = 0,
             };
+        }
+
+        pub fn asinh(v: T) T {
+            const abs_v = @abs(v);
+
+            // Very small: return v
+            if (abs_v < epsilon) return v;
+
+            // Large: avoid overflow, use log(|v|) + ln(2)
+            if (abs_v > @as(T, 1e20)) {
+                const LN2 = @log(@as(T, 2));
+                const sgn = if (v < 0) -@as(T, 1) else @as(T, 1);
+                return sgn * (@log(abs_v) + LN2);
+            }
+
+            // Standard formula
+            return @log(v + math.sqrt(v * v + @as(T, 1)));
+        }
+
+        pub fn acosh(v: T) T {
+            // Domain error: v < 1
+            if (v < @as(T, 1)) return std.math.nan(T);
+
+            // v == 1
+            if (v == @as(T, 1)) return @as(T, 0);
+
+            // Small excess above 1: use log1p for precision
+            const excess = v - @as(T, 1);
+            if (excess < epsilon) {
+                return math.sqrt(excess * @as(T, 2));
+            }
+
+            // Large: avoid overflow, use log(2*v)
+            if (v > @as(T, 1e20)) {
+                const LN2 = @log(@as(T, 2));
+                return @log(v) + LN2;
+            }
+
+            // Standard formula
+            return @log(v + math.sqrt(v * v - @as(T, 1)));
+        }
+
+        pub fn atanh(v: T) T {
+            const abs_v = @abs(v);
+
+            // Domain error: |v| >= 1
+            if (abs_v >= @as(T, 1)) return if (v > 0) std.math.inf(T) else -std.math.inf(T);
+
+            // Very small: return v
+            if (abs_v < epsilon) return v;
+
+            // Standard formula
+            return @log((@as(T, 1) + v) / (@as(T, 1) - v)) / @as(T, 2);
         }
 
         // --- Wrapper factories for each unit ---
@@ -286,47 +354,47 @@ pub fn Angle(comptime T: type) type {
         // ==================== GET VALUE METHODS ====================
 
         pub fn turn(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.turn)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.turn)];
         }
 
         pub fn mulp(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.mulp)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.mulp)];
         }
 
         pub fn quad(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.quad)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.quad)];
         }
 
         pub fn sext(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.sext)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.sext)];
         }
 
         pub fn rad(self: Self) T {
-            return self.value;
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.rad)];
         }
 
         pub fn hexa(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.hexa)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.hexa)];
         }
 
         pub fn bdeg(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.bdeg)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.bdeg)];
         }
 
         pub fn deg(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.deg)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.deg)];
         }
 
         pub fn grad(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.grad)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.grad)];
         }
 
         pub fn marc(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.marc)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.marc)];
         }
 
         pub fn sarc(self: Self) T {
-            return self.value * CONVERSION_FROM_RAD[@intFromEnum(AngleUnit.sarc)];
+            return self.value * SARC_TO_UNIT[@intFromEnum(AngleUnit.sarc)];
         }
 
         // ==================== TRIG/HYPERBOLIC ====================
@@ -361,16 +429,29 @@ pub fn Angle(comptime T: type) type {
             return 1 / s;
         }
 
+        pub fn sinh_of_rad(v: T) T {
+            return (math.exp(v) - math.exp(-v)) / @as(T, 2);
+        }
+
         pub fn sinh(self: Self) T {
-            return (math.exp(self.value) - math.exp(-self.value)) / 2;
+            return sinh_of_rad(self.rad());
+        }
+
+        pub fn cosh_of_rad(v: T) T {
+            return (math.exp(v) + math.exp(-v)) / @as(T, 2);
         }
 
         pub fn cosh(self: Self) T {
-            return (math.exp(self.value) + math.exp(-self.value)) / 2;
+            return cosh_of_rad(self.rad());
+        }
+
+        pub fn tanh_of_rad(v: T) T {
+            const exp_2r = math.exp(@as(T, 2) * v);
+            return (exp_2r - @as(T, 1)) / (exp_2r + @as(T, 1));
         }
 
         pub fn tanh(self: Self) T {
-            return math.tanh(self.value);
+            return tanh_of_rad(self.rad());
         }
 
         pub fn coth(self: Self) T {
@@ -394,62 +475,62 @@ pub fn Angle(comptime T: type) type {
         // ==================== USE FROM TRIG ====================
 
         pub fn use_sin(self: *Self, v: T) *Self {
-            self.value = math.asin(v);
+            self.value = math.asin(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_cos(self: *Self, v: T) *Self {
-            self.value = math.acos(v);
+            self.value = math.acos(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_tan(self: *Self, v: T) *Self {
-            self.value = math.atan(v);
+            self.value = math.atan(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_cot(self: *Self, v: T) *Self {
-            self.value = math.atan(1 / v);
+            self.value = math.atan(1 / v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_sec(self: *Self, v: T) *Self {
-            self.value = math.acos(1 / v);
+            self.value = math.acos(1 / v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_csc(self: *Self, v: T) *Self {
-            self.value = math.asin(1 / v);
+            self.value = math.asin(1 / v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_sinh(self: *Self, v: T) *Self {
-            self.value = math.asinh(v);
+            self.value = asinh(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_cosh(self: *Self, v: T) *Self {
-            self.value = math.acosh(v);
+            self.value = acosh(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_tanh(self: *Self, v: T) *Self {
-            self.value = math.atanh(v);
+            self.value = atanh(v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_coth(self: *Self, v: T) *Self {
-            self.value = math.atanh(1 / v);
+            self.value = atanh(1 / v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_sech(self: *Self, v: T) *Self {
-            self.value = math.acosh(1 / v);
+            self.value = acosh(1 / v) * rad_to_sarc;
             return self;
         }
 
         pub fn use_csch(self: *Self, v: T) *Self {
-            self.value = math.asinh(1 / v);
+            self.value = asinh(1 / v) * rad_to_sarc;
             return self;
         }
 
@@ -462,12 +543,12 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn use(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value = val * CONVERSION_TO_RAD[@intFromEnum(unit)];
+            self.value = val * UNIT_TO_SARC[@intFromEnum(unit)];
             return self;
         }
 
         pub fn add(self: *Self, unit: AngleUnit, val: T) *Self {
-            self.value += val * CONVERSION_TO_RAD[@intFromEnum(unit)];
+            self.value += val * UNIT_TO_SARC[@intFromEnum(unit)];
             return self;
         }
 
@@ -497,14 +578,10 @@ pub fn Angle(comptime T: type) type {
         }
 
         pub fn normalize(self: *Self) *Self {
-            self.value = @mod(self.value, pix2);
+            self.value = @mod(self.value, sarc_turn);
             if (self.value < 0) {
-                self.value += pix2;
+                self.value += sarc_turn;
             }
-            //todo //warning hardcoded for now, patch to solve new 1 fail. Later discover
-            // if (self.value >= pix2 - 1e-30 or self.value < 1e-30) {
-            //     self.value = 0;
-            // }
             return self;
         }
 
@@ -602,7 +679,7 @@ pub fn Angle(comptime T: type) type {
     };
 }
 
-pub const AngleF32 = Angle(f128);
+pub const AngleF32 = Angle(f32);
 pub const AngleF64 = Angle(f64);
 pub const AngleF128 = Angle(f128);
 

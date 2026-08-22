@@ -38,6 +38,8 @@ pub inline fn floats_equal(a: f128, b: f128, epsilon: f128) bool {
     const magnitude = @max(@abs(a), @abs(b));
     const adaptive_epsilon = epsilon * @max(1, magnitude);
 
+    std.debug.print("adaptive epsilon: {d}\n@abs(a-b): {d}\n", .{ adaptive_epsilon, @abs(a - b) }); //todo remove later
+
     return @abs(a - b) <= adaptive_epsilon;
 }
 
@@ -146,7 +148,7 @@ fn append_float_string(allocator: std.mem.Allocator, result: *std.ArrayList(u8),
             try result.appendSlice(allocator, "-Infinity");
         }
     } else {
-        var buf: [64]u8 = undefined; //warning input length affects buf size 64 vs 32
+        var buf: [128]u8 = undefined; //warning input length affects buf size 64 vs 32
         const str = try std.fmt.bufPrint(&buf, "{d}", .{val});
         try result.appendSlice(allocator, str);
     }

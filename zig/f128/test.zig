@@ -22,24 +22,24 @@ const test_normalize = @import("tests/test_normalize.zig").test_normalize;
 pub fn main(init: std.process.Init) !void {
     dp.init_from_env_map(init.environ_map);
 
-    const epsilon: f128 = 1e-6;
+    const epsilon: f128 = 1e-13;
 
     const results = [_]report.MethodResult{
-        // try test_from(epsilon),
-        // try test_add(epsilon),
-        // try test_from_sin(epsilon),
-        // try test_from_cos(epsilon),
-        // try test_from_tan(epsilon),
-        // try test_from_cot(epsilon),
-        // try test_from_sec(epsilon),
-        // try test_from_csc(epsilon),
-        // try test_from_sinh(epsilon),
-        // try test_from_cosh(epsilon),
-        // try test_from_tanh(epsilon),
-        // try test_from_coth(epsilon),
-        // try test_from_sech(epsilon),
-        // try test_from_csch(epsilon),
-        // try test_cut_angle(epsilon),
+        try test_from(epsilon),
+        try test_add(epsilon),
+        try test_from_sin(epsilon),
+        try test_from_cos(epsilon),
+        try test_from_tan(epsilon),
+        try test_from_cot(epsilon),
+        try test_from_sec(epsilon),
+        try test_from_csc(epsilon),
+        try test_from_sinh(epsilon),
+        try test_from_cosh(epsilon),
+        try test_from_tanh(epsilon),
+        try test_from_coth(epsilon),
+        try test_from_sech(epsilon),
+        try test_from_csch(epsilon),
+        try test_cut_angle(epsilon),
         try test_normalize(epsilon),
     };
 
