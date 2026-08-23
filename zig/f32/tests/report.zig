@@ -34,13 +34,13 @@ pub fn print_test_sum_report(results: []const MethodResult) void {
     dp.rawlog(.{ passed, "% tests passed: ", total_passed }, .green);
 
     if (total_failed > 0) {
-        dp.rawlog(.{ 100 - passed, "% tests failed : ", total_failed }, .magenta);
+        dp.rawlog(.{ 100 - passed, "% tests failed: ", total_failed }, .magenta);
         for (results) |r| {
             if (r.failed > 0) {
                 dp.rawerrlog(.{ r.failed, if (r.failed == 1) " test failed by " else " tests failed by ", r.name });
             }
         }
     } else {
-        dp.rawlog(.{ 100 - passed, "% tests failed : ", total_failed }, .green);
+        dp.rawlog(.{ 100 - passed, "% tests failed: ", total_failed }, .green);
     }
 }

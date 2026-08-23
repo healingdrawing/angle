@@ -25,6 +25,8 @@ const test_normalize = @import("tests/test_normalize.zig").test_normalize;
 pub fn main(init: std.process.Init) !void {
     dp.init_from_env_map(init.environ_map);
 
+    dp.rawlog(.{ USETYPE, " focused tests in process" }, .white);
+
     const results = [_]report.MethodResult{
         try test_from(USETYPE, epsilon),
         try test_add(USETYPE, epsilon),
@@ -43,6 +45,8 @@ pub fn main(init: std.process.Init) !void {
         try test_cut_angle(USETYPE, epsilon),
         try test_normalize(USETYPE, epsilon),
     };
+
+    dp.rawlog(.{ USETYPE, " focused tests completed" }, .white);
 
     report.print_test_sum_report(&results);
 }
