@@ -15,9 +15,8 @@ Zig implementation **not prepared to be build**(no build.zig at all) as dynamic 
 
 ## Tests
 
-Tests **test.zig** use epsilon(finally used adaptive_epsilon) was able to pass tests, at the development moment.
-**zig/f32/test.zig** `const epsilon: USETYPE = if (USETYPE == f32) 1e-4 else 1e-13;`
-**zig/f128/test.zig** `const epsilon: f128 = 1e-13;`
+The **test.zig** uses epsilon(finally used adaptive_epsilon) was able to pass tests, at the development moment.  
+`const epsilon: USETYPE = if (USETYPE == f32) 1e-4 else 1e-13;`
 
 So, at the moment **f64 zig implementation looks like the most suitable**.
 
