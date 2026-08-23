@@ -1,0 +1,11 @@
+discover this link to skeleton, tested , completed.
+https://github.com/healingdrawing/gemm.git
+It is example of the expected structure for task below.
+
+Now for Angle implementation i consider to follow similar approach, for ts and zig.
+At this time both must be recoded from haxe.
+Discover repo: https://github.com/healingdrawing/angle/tree/try-ts-zig-unification
+Angle.hx is source.
+zig and ts are targets.
+now just overview the repos.
+short report about pitfalls/caveats/obstacles.
