@@ -1,6 +1,6 @@
 # Angle
 
-Unified **typescript** and **zig** crossunit angle library.
+Unified **typescript** and **zig** cross-unit angle library.
 
 ## Solutions
 
