@@ -2,7 +2,7 @@ const std = @import("std");
 const dp = @import("utils/debug.zig");
 const report = @import("tests/report.zig");
 
-const USETYPE = f32; // warning only f32 or f64 or f128. Switch to test type
+const USETYPE = f128; // warning only f32 or f64 or f128. Switch to test type
 const epsilon: USETYPE = if (USETYPE == f32) 1e-4 else 1e-13;
 
 const test_from = @import("tests/test_from.zig").test_from;
