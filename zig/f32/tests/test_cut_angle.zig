@@ -66,7 +66,7 @@ pub fn test_cut_angle(comptime T: type, epsilon: T) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(T, zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from({any}, {any}).cut_angle(from({any}, {any})){any}() = {any}\n", .{ tcase.base_unit, tcase.base_value, tcase.cut_unit, tcase.cut_value, tcase.out_unit, zig_result });
+            dp.rawdevlog(.{ "✓ Angle.from(", tcase.base_unit, ", ", tcase.base_value, ").cut_angle(from(", tcase.cut_unit, ", ", tcase.cut_value, "))", tcase.out_unit, "() = ", zig_result, "\n" });
         } else {
             failed += 1;
             dp.errlog(.{

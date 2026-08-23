@@ -28,17 +28,19 @@ pub fn print_test_sum_report(results: []const MethodResult) void {
         }
     }.f;
 
-    dp.rawdevlog(.{ "summary ", results.len, " methods tested" });
-    dp.rawdevlog(.{ pct(total_executed, total_executed), "% tests executed: ", total_executed });
+    dp.rawlog(.{ "summary ", results.len, " methods tested" }, .green);
+    dp.rawlog(.{ pct(total_executed, total_executed), "% tests executed: ", total_executed }, .green);
     const passed = pct(total_passed, total_executed);
-    dp.rawdevlog(.{ passed, "% tests passed: ", total_passed });
-    dp.rawdevlog(.{ 100 - passed, "% tests failed : ", total_failed });
+    dp.rawlog(.{ passed, "% tests passed: ", total_passed }, .green);
 
     if (total_failed > 0) {
+        dp.rawlog(.{ 100 - passed, "% tests failed : ", total_failed }, .magenta);
         for (results) |r| {
             if (r.failed > 0) {
-                dp.rawerrlog(.{ r.failed, " tests failed by ", r.name });
+                dp.rawerrlog(.{ r.failed, if (r.failed == 1) " test failed by " else " tests failed by ", r.name });
             }
         }
+    } else {
+        dp.rawlog(.{ 100 - passed, "% tests failed : ", total_failed }, .green);
     }
 }

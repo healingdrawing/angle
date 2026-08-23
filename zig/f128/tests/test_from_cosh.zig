@@ -62,7 +62,7 @@ pub fn test_from_cosh(epsilon: f128) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from_cosh({d}){any}() = {any}\n", .{ tcase.in_value, tcase.out_unit, zig_result });
+            dp.rawdevlog(.{ "✓ Angle.from_cosh(", tcase.in_value, ")", tcase.out_unit, "() = ", zig_result, "\n" });
         } else {
             failed += 1;
             dp.errlog(.{

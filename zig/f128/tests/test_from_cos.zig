@@ -62,7 +62,7 @@ pub fn test_from_cos(epsilon: f128) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from_cos({d}).{s}() = {any}\n", .{ tcase.in_value, @tagName(tcase.out_unit), zig_result });
+            dp.rawdevlog(.{ "✓ Angle.from_cos(", tcase.in_value, ")", tcase.out_unit, "() = ", zig_result, "\n" });
         } else {
             failed += 1;
             dp.errlog(.{

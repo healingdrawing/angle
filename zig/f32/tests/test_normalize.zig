@@ -37,7 +37,6 @@ pub fn test_normalize(comptime T: type, epsilon: T) !report.MethodResult {
         // Call TS bridge
         const data_str = try floatUtils.vectors_to_string(T, allocator, .{ @intFromEnum(tcase.in_unit), tcase.in_value, @intFromEnum(tcase.out_unit) });
         defer allocator.free(data_str);
-        // std.debug.print("data_str {s}", .{data_str});
 
         var t_io = std.Io.Threaded.init(allocator, .{});
         defer t_io.deinit();
@@ -66,7 +65,7 @@ pub fn test_normalize(comptime T: type, epsilon: T) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(T, zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from({any}, {any}).normalize(){any}() = {any}\n", .{ tcase.in_unit, tcase.in_value, tcase.out_unit, zig_result });
+            dp.rawdevlog(.{ "✓ Angle.from(", tcase.in_unit, ", ", tcase.in_value, ").normalize()", tcase.out_unit, "() = ", zig_result, "\n" });
         } else {
             failed += 1;
             dp.errlog(.{

@@ -14,3 +14,17 @@ Zig version **not prepared to be build**(no build.zig at all) as dynamic or stat
 
 ## Artefacts
 Code in **haxe** folder is **deprecated haxe implementation, not developed anymore**. Used as origin for typescript and zig implementatioins.
+
+## Units
+
+- turn() -> turn
+- mulp() -> `multiples of Math.PI`
+- quad() -> `quadrant`
+- sext() -> `sextant`
+- rad() -> `radian`
+- hexa() -> `hexacontade`
+- bdeg() -> `binary degree`
+- deg() -> `degree`
+- grad() -> `grad`
+- marc() -> `minute of arc`
+- sarc() -> `second of arc`

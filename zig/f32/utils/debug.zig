@@ -263,7 +263,7 @@ fn join_args(args: anytype) ![]u8 {
     errdefer list.deinit(allocator);
 
     inline for (args, 0..) |v, i| {
-        if (i > 0) try list.appendSlice(allocator, " ");
+        if (i > 0) try list.appendSlice(allocator, "");
         const s = try value_to_string(allocator, v);
         defer allocator.free(s);
         try list.appendSlice(allocator, s);

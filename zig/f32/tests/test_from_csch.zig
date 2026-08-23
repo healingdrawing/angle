@@ -64,7 +64,7 @@ pub fn test_from_csch(comptime T: type, epsilon: T) !report.MethodResult {
         const ok_zig_ts = try floatUtils.arrays_equal(T, zig_result, ts_result, epsilon);
 
         if (ok_zig_ts and ok_zig_exp and ok_ts_exp) {
-            std.debug.print("✓ Angle.from_csch({d}){any}() = {any}\n", .{ tcase.in_value, tcase.out_unit, zig_result });
+            dp.rawdevlog(.{ "✓ Angle.from_csch(", tcase.in_value, ")", tcase.out_unit, "() = ", zig_result, "\n" });
         } else {
             failed += 1;
             dp.errlog(.{
