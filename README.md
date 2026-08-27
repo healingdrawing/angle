@@ -114,4 +114,4 @@ The implementation in zig/f128 folder stores angle **value in seconds of arc**.
 
 ## Artefacts
 
-Code in **haxe** folder is **deprecated haxe implementation, not developed anymore**. Used as origin for typescript and zig implementatioins.
+Code in **haxe** folder is **deprecated haxe implementation, not developed anymore**. Used as origin for typescript and zig implementations.
