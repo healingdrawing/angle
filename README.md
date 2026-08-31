@@ -11,7 +11,7 @@ Files:
 - **zig/f32/angle.zig** (zig implementation f32 or f64 focused).
 - **zig/f128/angle.zig** (zig implementation f128 focused. At the moment of development zig 0.16 std.math.sinh etc methods supported only f32, f64).
 
-Zig implementation **not prepared to be build**(no build.zig at all) as dynamic or static platform oriented libs, uses `zig build` command.
+Zig implementation **not prepared to be build**(no build.zig at all) as dynamic or static platform oriented libs.
 
 ## Tests
 
